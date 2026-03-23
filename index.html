@@ -28,6 +28,47 @@
       --r:          10px;
       --r-sm:       6px;
       --panel-w:    300px;
+
+      --canvas-bg:  #06060a;
+      --canvas-grid: rgba(255,255,255,0.025);
+      --glass-bg:   rgba(6,6,10,0.82);
+      --glass-bg-strong: rgba(6,6,10,0.9);
+      --glass-border: rgba(255,255,255,0.07);
+      --input-track: rgba(255,255,255,0.12);
+      --chip-bg: rgba(255,255,255,0.02);
+      --chip-bg-active: rgba(255,255,255,0.05);
+      --control-pill-bg: rgba(6,6,10,0.85);
+      --loading-track: rgba(255,255,255,0.08);
+    }
+
+    :root[data-theme="light"] {
+      --bg:         #f6f8fc;
+      --bg-panel:   #ffffff;
+      --bg-card:    #f2f5fa;
+      --bg-hover:   #e8edf5;
+      --border:     rgba(15,23,42,0.12);
+      --border-act: rgba(15,23,42,0.24);
+      --text-1:     #0f172a;
+      --text-2:     #475569;
+      --text-3:     #64748b;
+      --accent:     #059669;
+      --accent-dim: rgba(5,150,105,0.12);
+      --accent-2:   #4f46e5;
+      --amber:      #b45309;
+      --amber-dim:  rgba(180,83,9,0.12);
+      --red:        #dc2626;
+      --red-dim:    rgba(220,38,38,0.08);
+
+      --canvas-bg:  #eef3fb;
+      --canvas-grid: rgba(15,23,42,0.05);
+      --glass-bg:   rgba(255,255,255,0.88);
+      --glass-bg-strong: rgba(255,255,255,0.95);
+      --glass-border: rgba(15,23,42,0.14);
+      --input-track: rgba(15,23,42,0.18);
+      --chip-bg: rgba(15,23,42,0.03);
+      --chip-bg-active: rgba(15,23,42,0.07);
+      --control-pill-bg: rgba(255,255,255,0.92);
+      --loading-track: rgba(15,23,42,0.15);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -104,7 +145,7 @@
 
     /* ─── CANVAS PANEL ─── */
     .canvas-panel {
-      background: #06060a;
+      background: var(--canvas-bg);
       position: relative;
       display: flex;
       align-items: center;
@@ -117,8 +158,8 @@
       content: '';
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        linear-gradient(var(--canvas-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--canvas-grid) 1px, transparent 1px);
       background-size: 48px 48px;
       pointer-events: none;
     }
@@ -132,8 +173,8 @@
       position: absolute;
       padding: 10px 12px;
       border-radius: var(--r);
-      background: rgba(6,6,10,0.82);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
       z-index: 20;
     }
@@ -198,8 +239,8 @@
       z-index: 20;
     }
     .ctrl-card {
-      background: rgba(6,6,10,0.82);
-      border: 1px solid var(--border);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
       border-radius: var(--r);
       padding: 12px;
@@ -218,10 +259,10 @@
       padding: 6px 8px; border-radius: var(--r-sm);
       border: 1px solid var(--border);
       cursor: pointer; transition: all 0.15s;
-      background: rgba(255,255,255,0.02);
+      background: var(--chip-bg);
     }
     .group-chip:hover { background: var(--bg-hover); }
-    .group-chip.active { border-color: var(--border-act); background: rgba(255,255,255,0.05); }
+    .group-chip.active { border-color: var(--border-act); background: var(--chip-bg-active); }
     .group-chip.active .g-dot { box-shadow: 0 0 6px currentColor; }
     .g-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
     .g-name { font-size: 10px; font-family: var(--mono); }
@@ -232,7 +273,7 @@
     input[type=range] {
       width: 100%; -webkit-appearance: none; appearance: none;
       height: 2px; border-radius: 999px;
-      background: rgba(255,255,255,0.12); outline: none; cursor: pointer;
+      background: var(--input-track); outline: none; cursor: pointer;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none; width: 12px; height: 12px;
@@ -244,7 +285,7 @@
     .canvas-controls {
       position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
       display: flex; gap: 4px;
-      background: rgba(6,6,10,0.85);
+      background: var(--control-pill-bg);
       border: 1px solid var(--border);
       padding: 5px 6px; border-radius: 30px;
       backdrop-filter: blur(12px);
@@ -261,8 +302,8 @@
     /* Hover KP info */
     .kp-hover-info {
       position: absolute; top: 0; left: 0;
-      background: rgba(6,6,10,0.9);
-      border: 1px solid var(--border-act);
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
       color: var(--text-1); font-family: var(--mono); font-size: 10px;
       padding: 7px 10px; border-radius: var(--r-sm); line-height: 1.8;
       display: none; pointer-events: none; z-index: 30;
@@ -270,11 +311,11 @@
 
     /* Loading overlay */
     .loading-overlay {
-      position: absolute; inset: 0; background: #06060a;
+      position: absolute; inset: 0; background: var(--canvas-bg);
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 100;
     }
     .loading-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
-    .loading-bar { width: 100px; height: 1px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
+    .loading-bar { width: 100px; height: 1px; background: var(--loading-track); border-radius: 1px; overflow: hidden; }
     .loading-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
     .loading-text { font-family: var(--mono); font-size: 10px; color: var(--text-3); }
 
@@ -393,6 +434,7 @@
       </div>
     </div>
     <div class="topbar-right">
+      <button class="top-btn" id="btnTheme">라이트</button>
       <button class="top-btn" id="btnEdit">수정</button>
       <button class="top-btn danger" id="btnDelete">삭제</button>
     </div>
@@ -670,6 +712,36 @@
 <script>
 const IMAGE_URL = './asset/cup-pose.png';
 const JSON_URL = './data/ai_sample_data.json';
+const THEME_STORAGE_KEY = 'pose-studio-theme';
+
+function applyTheme(theme) {
+  const normalized = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', normalized);
+
+  const btnTheme = document.getElementById('btnTheme');
+  if (btnTheme) {
+    btnTheme.textContent = normalized === 'light' ? '다크' : '라이트';
+    btnTheme.title = normalized === 'light' ? '다크 테마로 전환' : '라이트 테마로 전환';
+  }
+}
+
+function initTheme() {
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  if (saved === 'light' || saved === 'dark') {
+    applyTheme(saved);
+    return;
+  }
+
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(prefersLight ? 'light' : 'dark');
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  localStorage.setItem(THEME_STORAGE_KEY, next);
+}
 
 const GROUP_COLORS = { body: '#00B7FF', foot: '#34d399', face: '#a78bfa', hand: '#fb923c' };
 
@@ -1071,6 +1143,11 @@ async function init() {
 }
 
 // Events
+const btnTheme = document.getElementById('btnTheme');
+if (btnTheme) {
+  btnTheme.onclick = () => toggleTheme();
+}
+
 document.getElementById('confSlider').oninput = (e) => {
   state.confThreshold = e.target.value / 100;
   document.getElementById('confVal').textContent = state.confThreshold.toFixed(2);
@@ -1114,6 +1191,7 @@ overlayCanvas.onmousemove = (e) => {
   } else info.style.display = 'none';
 };
 
+initTheme();
 init();
 
 window.addEventListener('resize', () => {
