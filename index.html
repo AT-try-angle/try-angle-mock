@@ -2,137 +2,109 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Pose Estimation Detail Mockup</title>
+  <title>Pose Studio — Detail View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap');
-
     :root {
-      --color-background-primary: #ffffff;
-      --color-background-secondary: #f4f4f7;
-      --color-background-tertiary: #fafafb;
-      --color-background-info: #e3f2fd;
-      --color-text-primary: #1a1a1c;
-      --color-text-secondary: #4a4a4e;
-      --color-text-tertiary: #8a8a8e;
-      --color-text-info: #1976d2;
-      --color-border-secondary: #d1d1d6;
-      --color-border-tertiary: #e5e5ea;
-      --border-radius-md: 8px;
-      --font-sans: 'Syne', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg:         #0a0a0c;
+      --bg-panel:   #111114;
+      --bg-card:    #18181c;
+      --bg-hover:   #202026;
+      --border:     rgba(255,255,255,0.07);
+      --border-act: rgba(255,255,255,0.18);
+      --text-1:     #f0f0f2;
+      --text-2:     #9090a0;
+      --text-3:     #55555f;
+      --accent:     #6ee7b7;
+      --accent-dim: rgba(110,231,183,0.12);
+      --accent-2:   #818cf8;
+      --amber:      #fbbf24;
+      --amber-dim:  rgba(251,191,36,0.12);
+      --red:        #f87171;
+      --red-dim:    rgba(248,113,113,0.1);
+      --mono:       'Space Mono', monospace;
+      --sans:       'DM Sans', sans-serif;
+      --r:          10px;
+      --r-sm:       6px;
+      --panel-w:    300px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .app { font-family: var(--font-sans); background: var(--color-background-tertiary); min-height: 100vh; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text-1); font-family: var(--sans); }
 
+    /* ─── TOPBAR ─── */
     .topbar {
-      background: var(--color-background-primary);
-      border-bottom: 0.5px solid var(--color-border-tertiary);
-      padding: 10px 20px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 16px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+      position: relative;
+      z-index: 50;
     }
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-right { display: flex; align-items: center; gap: 8px; }
+    .topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+    .topbar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
     .back-btn {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--color-text-secondary);
-      background: none; border: none; cursor: pointer; padding: 4px 8px;
-      border-radius: var(--border-radius-md);
-    }
-    .back-btn:hover { background: var(--color-background-secondary); }
-    .topbar-action-btn {
-      font-size: 12px;
-      font-family: var(--font-mono);
-      padding: 6px 12px;
-      border-radius: 10px;
-      border: 0.5px solid var(--color-border-secondary);
-      background: #fff;
-      color: var(--color-text-secondary);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .topbar-action-btn:hover {
-      background: var(--color-background-secondary);
-      color: var(--color-text-primary);
-    }
-    .topbar-action-btn.delete {
-      border-color: rgba(220, 38, 38, 0.35);
-      color: #b42318;
-      background: #fff5f5;
-    }
-    .topbar-action-btn.delete:hover {
-      background: #ffeaea;
-      border-color: rgba(220, 38, 38, 0.5);
-      color: #991b1b;
-    }
-    .breadcrumb { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-mono); }
-    .model-badge {
-      font-size: 11px; font-family: var(--font-mono);
-      background: var(--color-background-info); color: var(--color-text-info);
-      padding: 3px 10px; border-radius: 20px;
-    }
-    .image-meta-panel {
-      background: #fff6e2;
-    }
-    .image-meta-panel .section-label {
-      color: #9a6400;
-      margin-bottom: 10px;
-    }
-    .topbar-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; min-width: 0; }
-    .topbar-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #4a3000;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; font-family: var(--mono);
+      color: var(--text-2); background: none; border: none; cursor: pointer;
+      padding: 5px 8px; border-radius: var(--r-sm);
+      transition: all 0.15s;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    .img-url-chip {
-      flex-shrink: 0;
-      font-size: 10px;
-      font-family: var(--font-mono);
-      color: #8a5a00;
-      background: #ffe7b0;
-      border: 0.5px solid #ffcf72;
-      border-radius: 999px;
-      padding: 2px 8px;
-      max-width: 38%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .back-btn:hover { color: var(--text-1); background: var(--bg-card); }
+    .back-btn svg { opacity: 0.5; }
+
+    .topbar-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+
+    .breadcrumb-wrap { display: flex; align-items: center; gap: 6px; min-width: 0; }
+    .breadcrumb {
+      font-size: 11px; font-family: var(--mono); color: var(--text-3);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .topbar-desc {
-      font-size: 12px;
-      color: #6a4a12;
-      white-space: normal;
-      overflow: visible;
-      text-overflow: unset;
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-    .topbar-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .topbar-tag {
-      font-size: 10px;
-      line-height: 1;
-      padding: 4px 6px;
-      border-radius: 6px;
-      background: #ffe2a0;
-      color: #7a4e00;
-      border: 0.5px solid #ffc768;
-      font-family: var(--font-mono);
+    .breadcrumb-name {
+      font-size: 12px; font-family: var(--mono); color: var(--text-2);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .main-layout {
+    .status-pill {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10px; font-family: var(--mono);
+      padding: 3px 8px; border-radius: 20px;
+      background: var(--accent-dim); color: var(--accent);
+      border: 1px solid rgba(110,231,183,0.2);
+      white-space: nowrap;
+    }
+    .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    .top-btn {
+      font-size: 11px; font-family: var(--mono);
+      padding: 5px 12px; border-radius: var(--r-sm);
+      border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--text-2); cursor: pointer; transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .top-btn:hover { border-color: var(--border-act); color: var(--text-1); }
+    .top-btn.danger { border-color: rgba(248,113,113,0.25); color: var(--red); background: var(--red-dim); }
+    .top-btn.danger:hover { border-color: rgba(248,113,113,0.5); }
+
+    /* ─── LAYOUT ─── */
+    .layout {
       display: grid;
-      grid-template-columns: 1fr 320px;
-      height: calc(100vh - 45px);
+      grid-template-columns: 1fr var(--panel-w);
+      height: calc(100vh - 48px);
     }
 
+    /* ─── CANVAS PANEL ─── */
     .canvas-panel {
-      background: #0d0d0f;
+      background: #06060a;
       position: relative;
       display: flex;
       align-items: center;
@@ -140,622 +112,473 @@
       overflow: hidden;
     }
 
+    /* subtle grid bg */
+    .canvas-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
     .canvas-wrap { position: relative; }
     #mainCanvas { display: block; }
     #overlayCanvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
 
-    .canvas-controls {
+    /* ─── HUD ELEMENTS ─── */
+    .hud-card {
       position: absolute;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 12px;
-      border-radius: 20px;
-      backdrop-filter: blur(4px);
-      z-index: 10;
-    }
-    .ctrl-btn {
-      background: none; border: 0.5px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.8); font-size: 11px; font-family: var(--font-mono);
-      padding: 4px 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s;
-    }
-    .ctrl-btn:hover, .ctrl-btn.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.5); }
-    .ctrl-btn.active { color: #fff; }
-
-    .overlay-panel-right {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 320px;
-      max-width: calc(100% - 32px);
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(10,10,12,0.72);
-      border: 0.5px solid rgba(255,255,255,0.14);
-      backdrop-filter: blur(10px);
-      z-index: 12;
-    }
-    .overlay-panel-right .section-label {
-      color: rgba(255,255,255,0.52);
-      margin-bottom: 10px;
-    }
-    .overlay-panel-right .group-list {
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .overlay-panel-right .group-item {
-      padding: 4px 10px;
-      border-radius: 12px;
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.03);
-    }
-    .overlay-panel-right .group-left {
-      gap: 6px;
-    }
-    .overlay-panel-right .group-name {
-      font-size: 11px;
-      font-weight: 500;
-      font-family: var(--font-mono);
-    }
-    .overlay-panel-right .color-dot {
-      width: 8px;
-      height: 8px;
-    }
-    .overlay-panel-right .group-item:hover {
-      background: rgba(255,255,255,0.08);
-    }
-    .overlay-panel-right .group-item.active {
-      border-color: rgba(255,255,255,0.55);
-    }
-    .overlay-panel-right .conf-val {
-      color: rgba(255,255,255,0.9);
-    }
-    .overlay-panel-right input[type=range] {
-      width: 100%;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      height: 2px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.28);
-      outline: none;
-    }
-    .overlay-panel-right input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: none;
-    }
-    .overlay-panel-right input[type=range]::-moz-range-track {
-      height: 2px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.28);
-      border: none;
-    }
-    .overlay-panel-right input[type=range]::-moz-range-thumb {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: none;
+      padding: 10px 12px;
+      border-radius: var(--r);
+      background: rgba(6,6,10,0.82);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      z-index: 20;
     }
 
-    .hud-top {
-      position: absolute;
+    .hud-tl {
       top: 16px; left: 16px;
-      font-family: var(--font-mono);
-      font-size: 11px; color: rgba(255,255,255,0.5);
-      line-height: 1.8;
-      padding: 10px 12px;
-      min-width: 120px;
-      border-radius: 14px;
-      background: rgba(10,10,12,0.68);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      z-index: 11;
+      font-family: var(--mono); font-size: 10px;
+      line-height: 1.8; color: var(--text-3);
+      min-width: 110px;
     }
-    .hud-top span { color: rgba(255,255,255,0.9); }
+    .hud-tl span { color: var(--text-1); }
+    .hud-tl .accent-val { color: var(--accent); }
 
-    .lens-info-card {
-      position: absolute;
-      top: 96px;
-      left: 16px;
-      max-width: 260px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(10,10,12,0.68);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      z-index: 11;
+    .lens-card {
+      top: 16px; left: 16px;
+      margin-top: 80px;
+      max-width: 220px;
     }
-    .lens-info-label {
-      margin-bottom: 6px;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.46);
-      font-family: var(--font-mono);
-    }
-    .lens-info-main {
-      font-size: 14px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.94);
-      margin-bottom: 4px;
-    }
-    .lens-info-sub {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,0.72);
-      margin-bottom: 4px;
-    }
-    .lens-info-model {
-      font-size: 11px;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.5);
-    }
+    .lens-label { font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 5px; }
+    .lens-main { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+    .lens-sub { font-size: 11px; font-family: var(--mono); color: var(--text-2); margin-bottom: 2px; }
+    .lens-model { font-size: 10px; color: var(--text-3); line-height: 1.4; }
 
-    .right-panel {
-      background: var(--color-background-primary);
-      border-left: 0.5px solid var(--color-border-tertiary);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
+    .angle-card {
+      bottom: 16px; left: 16px;
+      width: 170px;
     }
+    .angle-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .angle-label-sm { font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
+    .angle-val { font-size: 12px; font-family: var(--mono); color: var(--amber); }
 
-    .panel-section { padding: 16px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
-    .section-label {
-      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--color-text-tertiary); margin-bottom: 12px; font-family: var(--font-mono);
-    }
-
-    .group-list {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 6px;
-    }
-    .group-item {
-      display: flex; align-items: center; justify-content: center;
-      padding: 8px 6px; border-radius: var(--border-radius-md);
-      cursor: pointer; border: 0.5px solid var(--color-border-tertiary); transition: all 0.15s;
-    }
-    .group-item:hover { background: var(--color-background-secondary); }
-    .group-item.active { border-color: var(--color-border-secondary); }
-    .group-left { display: flex; align-items: center; gap: 8px; }
-    .color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .group-name { font-size: 13px; font-weight: 500; }
-    .group-count { font-size: 11px; color: var(--color-text-tertiary); font-family: var(--font-mono); }
-
-    .conf-section { padding: 16px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
-    .conf-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .conf-val { font-size: 13px; font-family: var(--font-mono); font-weight: 500; }
-    input[type=range] { width: 100%; cursor: pointer; }
-
-    .decode-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-    .step-num {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary);
-      font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; color: var(--color-text-secondary);
-    }
-    .code-chip {
-      display: inline-block; font-family: var(--font-mono); font-size: 11px;
-      background: var(--color-background-secondary); padding: 1px 6px; border-radius: 4px; color: var(--color-text-info);
-    }
-    .pipeline-flow { display: flex; flex-direction: column; gap: 8px; }
-    .pipeline-node {
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 0.5px solid var(--color-border-tertiary);
-      background: var(--color-background-tertiary);
-    }
-    .pipeline-node strong { font-size: 11px; font-family: var(--font-mono); color: var(--color-text-primary); }
-    .pipeline-node div { margin-top: 2px; font-size: 11px; color: var(--color-text-secondary); }
-    .pipeline-arrow { text-align: center; font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-mono); }
-    .pipeline-meta { margin-top: 8px; font-size: 11px; color: var(--color-text-tertiary); line-height: 1.5; }
-
-    .kp-hover-info {
-      position: absolute; top: 0; left: 0;
-      background: rgba(0,0,0,0.75); color: rgba(255,255,255,0.9);
-      font-family: var(--font-mono); font-size: 11px;
-      padding: 8px 12px; border-radius: 8px; line-height: 1.8;
-      display: none; pointer-events: none; z-index: 20;
-    }
-
-    .loading-overlay {
-      position: absolute; inset: 0; background: #0d0d0f;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 100;
-    }
-    .loading-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-    .loading-fill { height: 100%; background: #378add; width: 0%; transition: width 0.3s; }
-    .loading-text { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.4); }
-
-    .angle-badge {
-      position: absolute; bottom: 60px; left: 16px;
-      font-family: var(--font-mono); font-size: 10px;
-      color: rgba(255,200,80,0.9); background: rgba(186,117,23,0.15);
-      border: 0.5px solid rgba(186,117,23,0.4); padding: 4px 10px; border-radius: 20px;
-    }
-
-    .angle-visual-card {
-      position: absolute;
-      left: 16px;
-      bottom: 16px;
-      width: 190px;
-      padding: 12px;
-      border-radius: 16px;
-      background: rgba(10,10,12,0.72);
-      border: 0.5px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      z-index: 11;
-    }
-    .angle-visual-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      gap: 8px;
-    }
-    .angle-visual-title {
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.46);
-      font-family: var(--font-mono);
-    }
-    .angle-visual-value {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: rgba(255,255,255,0.92);
-    }
     .tilt-visual-wrap {
       position: relative;
-      width: 132px;
-      height: 132px;
+      width: 110px; height: 110px;
       margin: 0 auto 8px;
     }
-    .tilt-visual-base {
-      width: 100%;
-      height: 100%;
-      display: block;
-      opacity: 0.92;
-      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.25));
-    }
+    .tilt-visual-base { width: 100%; height: 100%; display: block; opacity: 0.7; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
     .tilt-phone {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 54px;
-      height: 90px;
+      position: absolute; left: 50%; top: 50%;
+      width: 42px; height: 72px;
       --top-inset: 8px;
-      border-radius: 12px;
-      border: 1.5px solid rgba(255,200,80,0.9);
-      background: linear-gradient(180deg, rgba(255,220,140,0.28), rgba(186,117,23,0.18));
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 10px 18px rgba(0,0,0,0.26);
+      border-radius: 10px;
+      border: 1.5px solid var(--amber);
+      background: linear-gradient(180deg, rgba(251,191,36,0.2), rgba(251,191,36,0.05));
       transform: translate(-50%, -50%);
       clip-path: polygon(var(--top-inset) 0, calc(100% - var(--top-inset)) 0, 100% 100%, 0 100%);
-      transition: transform 0.35s ease, box-shadow 0.25s ease, clip-path 0.35s ease;
+      transition: transform 0.35s ease, clip-path 0.35s ease;
+      box-shadow: 0 0 12px rgba(251,191,36,0.15);
     }
-    .tilt-phone::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 8px;
-      width: 20px;
-      height: 3px;
-      transform: translateX(-50%);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.32);
-    }
-    .tilt-phone::after {
-      content: '';
-      position: absolute;
-      inset: 7px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .tilt-axis-label {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.34);
-      text-transform: uppercase;
-      pointer-events: none;
-    }
-    .tilt-axis-label.top { top: -16px; }
-    .tilt-axis-label.bottom { bottom: -16px; }
-    .angle-visual-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: rgba(255,255,255,0.54);
-    }
-    .angle-visual-meta strong {
-      color: #ffc74ff2;
-      font-weight: 500;
-    }
+    .tilt-phone::before { content: ''; position: absolute; left: 50%; top: 7px; width: 16px; height: 2px; transform: translateX(-50%); border-radius: 999px; background: rgba(255,255,255,0.3); }
+    .tilt-axis { position: absolute; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); pointer-events: none; }
+    .tilt-axis.top { top: -14px; }
+    .tilt-axis.bottom { bottom: -14px; }
+    .angle-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9px; color: var(--text-3); }
+    .angle-meta strong { color: var(--amber); font-weight: 500; }
 
-    .metric-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--color-text-secondary);
+    /* ─── OVERLAY CONTROLS (top-right of canvas) ─── */
+    .ctrl-panel {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 220px;
+      z-index: 20;
     }
-    .metric-row.tight { margin-bottom: 6px; }
-    .metric-subtitle {
-      margin: 10px 0 8px;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-text-tertiary);
-      font-family: var(--font-mono);
-    }
-    .metric-value {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--color-text-primary);
-      font-weight: 500;
-    }
-    .metric-line-card {
-      border: 0.5px solid #202020;
-      background: #444444;
-      border-radius: 12px;
-      padding: 10px;
-      margin-top: 8px;
-    }
-    .metric-line-title {
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-text-tertiary);
-      font-family: var(--font-mono);
+    .ctrl-card {
+      background: rgba(6,6,10,0.82);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      border-radius: var(--r);
+      padding: 12px;
       margin-bottom: 8px;
     }
-    .camera-tilt-card {
-      margin-top: 10px;
-    }
-    .camera-tilt-card .metric-line-title {
+    .ctrl-label { font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+
+    .group-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
       margin-bottom: 10px;
     }
-    .camera-tilt-card .tilt-visual-wrap {
-      margin: 2px auto 10px;
+    .group-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 8px; border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.15s;
+      background: rgba(255,255,255,0.02);
     }
-    .metric-line-track {
+    .group-chip:hover { background: var(--bg-hover); }
+    .group-chip.active { border-color: var(--border-act); background: rgba(255,255,255,0.05); }
+    .group-chip.active .g-dot { box-shadow: 0 0 6px currentColor; }
+    .g-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .g-name { font-size: 10px; font-family: var(--mono); }
+
+    .conf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .conf-lbl { font-size: 10px; color: var(--text-2); }
+    .conf-num { font-size: 11px; font-family: var(--mono); color: var(--accent); }
+    input[type=range] {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 2px; border-radius: 999px;
+      background: rgba(255,255,255,0.12); outline: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--accent);
+      box-shadow: 0 0 6px rgba(110,231,183,0.5);
+    }
+
+    /* Bottom controls bar */
+    .canvas-controls {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 4px;
+      background: rgba(6,6,10,0.85);
+      border: 1px solid var(--border);
+      padding: 5px 6px; border-radius: 30px;
+      backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+    .ctrl-btn {
+      background: none; border: 1px solid transparent;
+      color: var(--text-3); font-size: 10px; font-family: var(--mono);
+      padding: 4px 12px; border-radius: 20px; cursor: pointer; transition: all 0.15s;
+    }
+    .ctrl-btn:hover { color: var(--text-1); border-color: var(--border); }
+    .ctrl-btn.active { background: rgba(255,255,255,0.07); border-color: var(--border-act); color: var(--text-1); }
+
+    /* Hover KP info */
+    .kp-hover-info {
+      position: absolute; top: 0; left: 0;
+      background: rgba(6,6,10,0.9);
+      border: 1px solid var(--border-act);
+      color: var(--text-1); font-family: var(--mono); font-size: 10px;
+      padding: 7px 10px; border-radius: var(--r-sm); line-height: 1.8;
+      display: none; pointer-events: none; z-index: 30;
+    }
+
+    /* Loading overlay */
+    .loading-overlay {
+      position: absolute; inset: 0; background: #06060a;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 100;
+    }
+    .loading-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
+    .loading-bar { width: 100px; height: 1px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
+    .loading-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
+    .loading-text { font-family: var(--mono); font-size: 10px; color: var(--text-3); }
+
+    /* ─── RIGHT PANEL ─── */
+    .right-panel {
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex; flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-hover) transparent;
+    }
+    .right-panel::-webkit-scrollbar { width: 4px; }
+    .right-panel::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 2px; }
+
+    /* ─── IMAGE META HEADER ─── */
+    .img-meta-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .img-title-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+    .img-title { font-size: 14px; font-weight: 600; color: var(--text-1); line-height: 1.4; flex: 1; }
+    .img-url-chip {
+      flex-shrink: 0; font-size: 9px; font-family: var(--mono);
+      color: var(--amber); background: var(--amber-dim);
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 4px; padding: 2px 6px;
+      max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .img-desc { font-size: 12px; color: var(--text-2); line-height: 1.6; margin-bottom: 10px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag-chip {
+      font-size: 10px; font-family: var(--mono);
+      color: var(--accent); background: var(--accent-dim);
+      border: 1px solid rgba(110,231,183,0.15);
+      border-radius: 4px; padding: 2px 7px;
+    }
+
+    /* ─── PANEL SECTIONS ─── */
+    .panel-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .section-head {
+      font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── METRICS ─── */
+    .metric { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .metric:last-child { margin-bottom: 0; }
+    .metric-key { font-size: 11px; color: var(--text-2); }
+    .metric-val { font-size: 11px; font-family: var(--mono); color: var(--text-1); font-weight: 500; }
+    .metric-val.accent { color: var(--accent); }
+    .metric-val.amber { color: var(--amber); }
+
+    .sub-head { font-size: 9px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin: 10px 0 6px; }
+
+    /* Camera tilt inside panel */
+    .tilt-mini-wrap {
+      position: relative; width: 90px; height: 90px; margin: 0 auto 6px;
+    }
+
+    /* Distance line */
+    .dist-line-wrap {
+      position: relative; margin-top: 4px;
+    }
+    .dist-line-track {
       position: relative;
-      width: 100%;
     }
-    .metric-line-track.tilt {
-      aspect-ratio: 232 / 73;
+    .dist-line-track.distance { aspect-ratio: 226 / 18; }
+    .metric-line-svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; opacity: 0.6; filter: invert(0.12); }
+    .metric-camera-marker { position: absolute; width: 18px; height: 9px; transform: translate(-50%,-50%); transition: left 0.35s ease, top 0.35s ease, transform 0.35s ease; filter: invert(0.1); pointer-events: none; }
+    .dist-ends { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+
+    /* ─── PIPELINE ─── */
+    .pipeline { display: flex; flex-direction: column; gap: 4px; }
+    .pipe-node {
+      padding: 8px 10px; border-radius: var(--r-sm);
+      border: 1px solid var(--border); background: var(--bg-card);
+      transition: border-color 0.15s;
     }
-    .metric-line-track.distance {
-      aspect-ratio: 226 / 18;
-    }
-    .metric-line-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      opacity: 0.9;
-      filter: invert(0.12);
-    }
-    .metric-camera-marker {
-      position: absolute;
-      width: 22px;
-      height: 11px;
-      transform: translate(-50%, -50%);
-      transition: left 0.35s ease, top 0.35s ease, transform 0.35s ease;
-      filter: invert(0.08);
-      pointer-events: none;
-    }
-    .metric-ends {
-      margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--color-text-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
+    .pipe-node:hover { border-color: var(--border-act); }
+    .pipe-node-title { font-size: 10px; font-family: var(--mono); color: var(--text-1); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+    .pipe-gate { font-size: 9px; color: var(--accent); }
+    .pipe-desc { font-size: 10px; color: var(--text-3); line-height: 1.45; }
+    .pipe-arrow { text-align: center; font-size: 9px; color: var(--text-3); font-family: var(--mono); }
+
+    /* ─── SCORE BADGE ─── */
+    .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .score-big { font-size: 28px; font-family: var(--mono); color: var(--accent); font-weight: 700; line-height: 1; }
+    .score-label { font-size: 10px; color: var(--text-3); line-height: 1.5; }
+    .score-bar { flex: 1; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .score-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 3px; }
   </style>
 </head>
 <body>
+<div class="app" style="height:100%;display:flex;flex-direction:column;">
 
-<div class="app">
+  <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-left">
-      <button class="back-btn"> < 목록으로 </button>
-      <span class="breadcrumb">ref / hot1.jpg</span>
+      <button class="back-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        목록
+      </button>
+      <div class="topbar-divider"></div>
+      <div class="breadcrumb-wrap">
+        <span class="breadcrumb">ref /</span>
+        <span class="breadcrumb-name" id="breadcrumbName">hot1.jpg</span>
+      </div>
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        분석 완료
+      </div>
     </div>
     <div class="topbar-right">
-      <button class="topbar-action-btn" id="btnEdit">수정</button>
-      <button class="topbar-action-btn delete" id="btnDelete">삭제</button>
+      <button class="top-btn" id="btnEdit">수정</button>
+      <button class="top-btn danger" id="btnDelete">삭제</button>
     </div>
   </div>
 
-  <div class="main-layout">
+  <!-- MAIN LAYOUT -->
+  <div class="layout" style="flex:1;min-height:0;">
+
+    <!-- CANVAS PANEL -->
     <div class="canvas-panel" id="canvasPanel">
       <div class="canvas-wrap">
         <canvas id="mainCanvas"></canvas>
         <canvas id="overlayCanvas"></canvas>
       </div>
+
+      <!-- Loading -->
       <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-title">Pose Studio</div>
         <div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
         <div class="loading-text" id="loadingText">초기화 중...</div>
       </div>
-      <div class="hud-top">
-        PERSONS <span id="hudPersons">1</span><br>
-        KP <span id="hudKp">133</span>
-      </div>
-      <div class="lens-info-card">
-        <div class="lens-info-label">lens info</div>
-        <div class="lens-info-main" id="lensInfoMain">52mm eq · f/1.8</div>
-        <div class="lens-info-sub" id="lensInfoSub">8.0mm · ISO 80 · 1/125s</div>
-        <div class="lens-info-model" id="lensInfoModel">iPhone Back Camera 6.86mm f/1.78</div>
-      </div>
-      <div class="angle-badge" id="angleBadge">HIGH ANGLE −65.0°</div>
-      <div class="angle-visual-card">
-        <div class="angle-visual-header">
-          <span class="angle-visual-title">camera tilt</span>
-          <span class="angle-visual-value" id="tiltAngleValue">−65.0°</span>
-        </div>
-        <div class="tilt-visual-wrap">
-          <span class="tilt-axis-label top">high</span>
-          <img class="tilt-visual-base" src="./asset/tilt-icon.svg" alt="camera tilt guide">
-          <div class="tilt-phone" id="tiltPhone"></div>
-          <span class="tilt-axis-label bottom">low</span>
-        </div>
-        <div class="angle-visual-meta">
-          <span id="tiltAngleLabel"><strong>HIGH ANGLE</strong></span>
-          <span>phone guide</span>
-        </div>
-      </div>
-      <div class="overlay-panel-right">
-        <div class="section-label">그룹 표시 제어</div>
-        <div class="group-list" id="groupList">
-          <div class="group-item active" data-group="body">
-            <div class="group-left">
-              <div class="color-dot" style="background:#00B7FF"></div>
-              <div class="group-name" style="color:#00B7FF">Body</div>
-            </div>
-          </div>
-          <div class="group-item active" data-group="foot">
-            <div class="group-left">
-              <div class="color-dot" style="background:#16A34A"></div>
-              <div class="group-name" style="color:#16A34A">Foot</div>
-            </div>
-          </div>
-          <div class="group-item active" data-group="face">
-            <div class="group-left">
-              <div class="color-dot" style="background:#9333EA"></div>
-              <div class="group-name" style="color:#9333EA">Face</div>
-            </div>
-          </div>
-          <div class="group-item active" data-group="hand">
-            <div class="group-left">
-              <div class="color-dot" style="background:#F97316"></div>
-              <div class="group-name" style="color:#F97316">Hand</div>
-            </div>
-          </div>
-        </div>
 
-        <div class="section-label">신뢰도 임계값</div>
-        <div class="conf-label-row">
-          <span style="font-size:12px;color:rgba(255,255,255,0.72)">conf threshold</span>
-          <span class="conf-val" id="confVal">0.20</span>
-        </div>
-        <input type="range" id="confSlider" min="0" max="100" value="20">
+      <!-- HUD top-left: stats -->
+      <div class="hud-card hud-tl">
+        PERSONS &nbsp;<span id="hudPersons">1</span><br>
+        KP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="accent-val" id="hudKp">—</span>
       </div>
+
+      <!-- Lens info -->
+      <div class="hud-card lens-card">
+        <div class="lens-label">lens info</div>
+        <div class="lens-main" id="lensInfoMain">—mm eq · f/—</div>
+        <div class="lens-sub" id="lensInfoSub">—</div>
+        <div class="lens-model" id="lensInfoModel">—</div>
+      </div>
+
+      <!-- Controls panel top-right -->
+      <div class="ctrl-panel">
+        <div class="ctrl-card">
+          <div class="ctrl-label">그룹 표시</div>
+          <div class="group-grid" id="groupList">
+            <div class="group-chip active" data-group="body">
+              <div class="g-dot" style="background:#00B7FF;color:#00B7FF"></div>
+              <span class="g-name" style="color:#00B7FF">Body</span>
+            </div>
+            <div class="group-chip active" data-group="foot">
+              <div class="g-dot" style="background:#34d399;color:#34d399"></div>
+              <span class="g-name" style="color:#34d399">Foot</span>
+            </div>
+            <div class="group-chip active" data-group="face">
+              <div class="g-dot" style="background:#a78bfa;color:#a78bfa"></div>
+              <span class="g-name" style="color:#a78bfa">Face</span>
+            </div>
+            <div class="group-chip active" data-group="hand">
+              <div class="g-dot" style="background:#fb923c;color:#fb923c"></div>
+              <span class="g-name" style="color:#fb923c">Hand</span>
+            </div>
+          </div>
+          <div class="ctrl-label" style="margin-top:4px;">신뢰도 임계값</div>
+          <div class="conf-row">
+            <span class="conf-lbl">conf threshold</span>
+            <span class="conf-num" id="confVal">0.20</span>
+          </div>
+          <input type="range" id="confSlider" min="0" max="100" value="20">
+        </div>
+      </div>
+
+      <!-- Bottom toggles -->
       <div class="canvas-controls">
         <button class="ctrl-btn active" id="btnSkeleton">skeleton</button>
         <button class="ctrl-btn active" id="btnDots">dots</button>
         <button class="ctrl-btn" id="btnBbox">bbox</button>
       </div>
+
+      <!-- KP hover tooltip -->
       <div class="kp-hover-info" id="kpInfo"></div>
     </div>
 
+    <!-- RIGHT PANEL -->
     <div class="right-panel">
-      <div class="panel-section image-meta-panel" id="imageMetaTopbar">
-        <div class="section-label">이미지 정보</div>
-        <div class="topbar-title-row">
-          <div class="topbar-title" id="imgTitleText">로딩 중...</div>
-          <div class="img-url-chip" id="imgUrlText">-</div>
+
+      <!-- Image meta -->
+      <div class="img-meta-section" id="imageMetaTopbar">
+        <div class="img-title-row">
+          <div class="img-title" id="imgTitleText">로딩 중...</div>
+          <div class="img-url-chip" id="imgUrlText">—</div>
         </div>
-        <div class="topbar-desc" id="imgDescText">JSON 데이터 로딩 중...</div>
-        <div class="topbar-tags" id="imgTagsText"></div>
+        <div class="img-desc" id="imgDescText">JSON 데이터 로딩 중...</div>
+        <div class="tag-row" id="imgTagsText"></div>
       </div>
 
+      <!-- Overall score -->
       <div class="panel-section">
-        <div class="section-label">카메라 정보</div>
-        <div class="metric-row">
-          <span>camera angle</span>
-          <span class="metric-value" id="camAngleText">HIGH ANGLE · -65.0°</span>
-        </div>
-        <div class="metric-line-card camera-tilt-card">
-          <div class="metric-line-title">camera-tilt</div>
-          <div class="tilt-visual-wrap">
-            <span class="tilt-axis-label top">high</span>
-            <img class="tilt-visual-base" src="./asset/tilt-icon.svg" alt="camera tilt guide">
-            <div class="tilt-phone" id="tiltPhone"></div>
-            <span class="tilt-axis-label bottom">low</span>
-          </div>
-          <div class="angle-visual-meta">
-            <span id="tiltAngleLabel"><strong>HIGH ANGLE</strong></span>
-            <span>phone guide</span>
+        <div class="section-head">분석 점수</div>
+        <div class="score-row">
+          <div class="score-big" id="overallScore">0.88</div>
+          <div>
+            <div class="score-bar"><div class="score-fill" id="scoreFillBar" style="width:88%"></div></div>
+            <div class="score-label" style="margin-top:6px;">Overall framing score</div>
           </div>
         </div>
-        <div class="metric-row" style="margin-top:12px; margin-bottom:0;">
-          <span>camera-target distance</span>
-          <span class="metric-value" id="distanceText">2.35 m</span>
+      </div>
+
+      <!-- Camera info -->
+      <div class="panel-section">
+        <div class="section-head">카메라 정보</div>
+
+        <div class="metric">
+          <span class="metric-key">camera angle</span>
+          <span class="metric-val amber" id="camAngleText">—</span>
         </div>
 
-        <div class="metric-line-card">
-          <div class="metric-line-title">camera-distance-line</div>
-          <div class="metric-line-track distance" id="distanceLineTrack">
+        <!-- Mini tilt -->
+        <div class="sub-head">camera tilt</div>
+        <div class="tilt-mini-wrap" style="position:relative;width:90px;height:90px;margin:0 auto 4px;">
+          <span class="tilt-axis top" style="font-size:8px;position:absolute;left:50%;transform:translateX(-50%);top:-14px;font-family:var(--mono);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em">high</span>
+          <img class="tilt-visual-base" src="./asset/tilt-icon.svg" alt="camera tilt guide" style="width:100%;height:100%;display:block;opacity:.6;">
+          <div class="tilt-phone" id="tiltPhonePanel" style="position:absolute;left:50%;top:50%;width:34px;height:58px;border-radius:8px;border:1.5px solid var(--amber);background:linear-gradient(180deg,rgba(251,191,36,.2),rgba(251,191,36,.05));transform:translate(-50%,-50%);clip-path:polygon(var(--top-inset) 0,calc(100% - var(--top-inset)) 0,100% 100%,0 100%);transition:transform .35s ease,clip-path .35s ease;--top-inset:8px;"></div>
+          <span class="tilt-axis bottom" style="font-size:8px;position:absolute;left:50%;transform:translateX(-50%);bottom:-14px;font-family:var(--mono);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em">low</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text-3);margin-bottom:12px;">
+          <span id="tiltAngleLabelPanel"><strong style="color:var(--amber)">—</strong></span>
+          <span>phone guide</span>
+        </div>
+
+        <!-- Distance -->
+        <div class="metric">
+          <span class="metric-key">camera distance</span>
+          <span class="metric-val" id="distanceText">—</span>
+        </div>
+        <div class="dist-line-wrap">
+          <div class="dist-line-track distance" id="distanceLineTrack">
             <img class="metric-line-svg" src="./asset/camera-distance-line.svg" alt="camera distance line">
             <img class="metric-camera-marker" id="distanceLineCamera" src="./asset/camera-icon.svg" alt="camera marker">
           </div>
-          <div class="metric-ends"><span>near</span><span>far</span></div>
-        </div>
-
-        <div class="section-label" style="margin-top:12px;">피사체 정보</div>
-        <div class="metric-row tight">
-          <span>shot type</span>
-          <span class="metric-value" id="shotTypeText">fullShot</span>
-        </div>
-        <div class="metric-row tight">
-          <span>shot confidence</span>
-          <span class="metric-value" id="shotConfText">0.92</span>
-        </div>
-        <div class="metric-row tight">
-          <span>estimated distance</span>
-          <span class="metric-value" id="subjectDistanceText">2.35 m</span>
-        </div>
-        <div class="metric-row tight">
-          <span>shoulder ratio</span>
-          <span class="metric-value" id="shoulderRatioText">0.182</span>
-        </div>
-        <div class="metric-row tight">
-          <span>body type</span>
-          <span class="metric-value" id="bodyTypeText">medium</span>
-        </div>
-        <div class="metric-row" style="margin-bottom:0;">
-          <span>nose position</span>
-          <span class="metric-value" id="nosePosText">x 0.512 · y 0.325</span>
+          <div class="dist-ends"><span>near</span><span>far</span></div>
         </div>
       </div>
 
+      <!-- Subject info -->
       <div class="panel-section">
-        <div class="section-label">모델 파이프라인 · Gate System</div>
-        <div class="pipeline-flow">
-          <div class="pipeline-node"><strong>Gate 0 화면비</strong><div>레퍼런스 비율 vs 현재 비율 · 불일치 시 비율 변경 안내</div></div>
-          <div class="pipeline-node"><strong>Gate 1 줌</strong><div>35mm 환산 초점거리 비교(±15%) · 줌인/줌아웃 안내</div></div>
-          <div class="pipeline-node"><strong>Gate 2 거리</strong><div>몸통 비율/바운딩박스 기준 거리 · 앞으로/뒤로 안내</div></div>
-          <div class="pipeline-node"><strong>Gate 3 앵글</strong><div>레퍼런스 pitch/roll vs 센서값(±5°) · 각도 조정 안내</div></div>
-          <div class="pipeline-node"><strong>Gate 4 위치</strong><div>인물 중심점 편차 · 좌/우/상/하 이동 안내</div></div>
-          <div class="pipeline-node"><strong>Gate 5 포즈</strong><div>133 관절 각도 일치도 · 최대 2개 관절만 피드백</div></div>
+        <div class="section-head">피사체 정보</div>
+        <div class="metric"><span class="metric-key">shot type</span><span class="metric-val accent" id="shotTypeText">—</span></div>
+        <div class="metric"><span class="metric-key">shot confidence</span><span class="metric-val" id="shotConfText">—</span></div>
+        <div class="metric"><span class="metric-key">estimated distance</span><span class="metric-val" id="subjectDistanceText">—</span></div>
+        <div class="metric"><span class="metric-key">shoulder ratio</span><span class="metric-val" id="shoulderRatioText">—</span></div>
+        <div class="metric"><span class="metric-key">body type</span><span class="metric-val" id="bodyTypeText">—</span></div>
+        <div class="metric"><span class="metric-key">nose position</span><span class="metric-val" id="nosePosText">—</span></div>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="panel-section">
+        <div class="section-head">모델 파이프라인</div>
+        <div class="pipeline">
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G0</span> 화면비</div>
+            <div class="pipe-desc">레퍼런스 비율 vs 현재 비율 · 불일치 시 비율 변경 안내</div>
+          </div>
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G1</span> 줌</div>
+            <div class="pipe-desc">35mm 환산 초점거리 비교(±15%) · 줌인/줌아웃 안내</div>
+          </div>
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G2</span> 거리</div>
+            <div class="pipe-desc">몸통 비율/바운딩박스 기준 거리 · 앞으로/뒤로 안내</div>
+          </div>
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G3</span> 앵글</div>
+            <div class="pipe-desc">레퍼런스 pitch/roll vs 센서값(±5°) · 각도 조정 안내</div>
+          </div>
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G4</span> 위치</div>
+            <div class="pipe-desc">인물 중심점 편차 · 좌/우/상/하 이동 안내</div>
+          </div>
+          <div class="pipe-node">
+            <div class="pipe-node-title"><span class="pipe-gate">G5</span> 포즈</div>
+            <div class="pipe-desc">133 관절 각도 일치도 · 최대 2개 관절만 피드백</div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+
+    </div><!-- /right-panel -->
+  </div><!-- /layout -->
 </div>
 
+<!-- Embedded sample data -->
 <script id="embeddedSampleData" type="application/json">
 {
   "imgTitle": "하이앵글 컵포즈",
@@ -848,36 +671,28 @@
 const IMAGE_URL = './asset/cup-pose.png';
 const JSON_URL = './data/ai_sample_data.json';
 
-const GROUP_COLORS = { body: '#00B7FF', foot: '#16A34A', face: '#9333EA', hand: '#F97316' };
+const GROUP_COLORS = { body: '#00B7FF', foot: '#34d399', face: '#a78bfa', hand: '#fb923c' };
 
 const BODY_CONNECTIONS = [[0,1],[0,2],[1,3],[2,4],[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];
-
-// [수정됨] 발 좌우 교차 버그 수정 (15:좌측발목, 16:우측발목 / 17~19:좌측발, 20~22:우측발)
-const FOOT_CONNECTIONS = [
-  [15, 17], [17, 18], [15, 19], // Left Foot (발목->엄지, 엄지->새끼, 발목->뒤꿈치)
-  [16, 20], [20, 21], [16, 22]  // Right Foot
-];
-
+const FOOT_CONNECTIONS = [[15,17],[17,18],[15,19],[16,20],[20,21],[16,22]];
 const HAND_CONNECTIONS = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,11],[11,12],[0,13],[13,14],[14,15],[15,16],[0,17],[17,18],[18,19],[19,20]];
-
-// [추가됨] 68-point 얼굴 윤곽선 연결 로직 생성 (인덱스 23~90)
 const FACE_CONNECTIONS = (() => {
   const conns = [];
-  for(let i=23; i<39; i++) conns.push([i, i+1]); // 턱선 (Jaw)
-  for(let i=40; i<44; i++) conns.push([i, i+1]); // 우측 눈썹
-  for(let i=45; i<49; i++) conns.push([i, i+1]); // 좌측 눈썹
-  for(let i=50; i<53; i++) conns.push([i, i+1]); // 코 콧대
-  for(let i=54; i<58; i++) conns.push([i, i+1]); // 코 밑동
-  conns.push([53, 54]); // 콧대 -> 밑동 연결
-  for(let i=59; i<64; i++) conns.push([i, i+1]); conns.push([64, 59]); // 우측 눈 (루프)
-  for(let i=65; i<70; i++) conns.push([i, i+1]); conns.push([70, 65]); // 좌측 눈 (루프)
-  for(let i=71; i<82; i++) conns.push([i, i+1]); conns.push([82, 71]); // 바깥 입술 (루프)
-  for(let i=83; i<90; i++) conns.push([i, i+1]); conns.push([90, 83]); // 안쪽 입술 (루프)
+  for(let i=23; i<39; i++) conns.push([i, i+1]);
+  for(let i=40; i<44; i++) conns.push([i, i+1]);
+  for(let i=45; i<49; i++) conns.push([i, i+1]);
+  for(let i=50; i<53; i++) conns.push([i, i+1]);
+  for(let i=54; i<58; i++) conns.push([i, i+1]);
+  conns.push([53, 54]);
+  for(let i=59; i<64; i++) conns.push([i, i+1]); conns.push([64, 59]);
+  for(let i=65; i<70; i++) conns.push([i, i+1]); conns.push([70, 65]);
+  for(let i=71; i<82; i++) conns.push([i, i+1]); conns.push([82, 71]);
+  for(let i=83; i<90; i++) conns.push([i, i+1]); conns.push([90, 83]);
   return conns;
 })();
 
 let state = {
-  img: null, person: null, 
+  img: null, person: null,
   showGroups: {body: true, foot: true, face: true, hand: true},
   showSkeleton: true, showDots: true, showBbox: false,
   confThreshold: 0.2,
@@ -894,235 +709,175 @@ const mCtx = mainCanvas.getContext('2d');
 const oCtx = overlayCanvas.getContext('2d');
 
 const decodeHex = (h) => parseInt(h, 16) / 10000;
-
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
+function clamp(v, mn, mx) { return Math.min(mx, Math.max(mn, v)); }
+function toFixedNumber(v, d=1, fb='—') { return Number.isFinite(v) ? v.toFixed(d) : fb; }
+function humanizeToken(v) {
+  if (!v || typeof v !== 'string') return '—';
+  return v.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
 }
-
-function toFixedNumber(value, digits = 1, fallback = '—') {
-  return Number.isFinite(value) ? value.toFixed(digits) : fallback;
-}
-
-function humanizeToken(value) {
-  if (!value || typeof value !== 'string') return '—';
-  return value
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/^./, c => c.toUpperCase());
-}
-
-function formatErrorMessage(error) {
-  if (error instanceof Error && error.message) return error.message;
-  if (typeof error === 'string' && error) return error;
-  if (error && typeof error === 'object' && 'type' in error) return `리소스 로딩 실패 (${error.type})`;
+function formatErrorMessage(e) {
+  if (e instanceof Error && e.message) return e.message;
+  if (typeof e === 'string' && e) return e;
+  if (e && typeof e === 'object' && 'type' in e) return `리소스 로딩 실패 (${e.type})`;
   return '알 수 없는 오류';
 }
 
 function loadImage(url) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error('이미지 로딩에 실패했습니다. URL 또는 네트워크 상태를 확인하세요.'));
-    image.src = url;
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = () => rej(new Error('이미지 로딩 실패'));
+    img.src = url;
   });
 }
 
-function drawBaseCanvas(img, width, height) {
-  mCtx.clearRect(0, 0, width, height);
-
-  if (img) {
-    mCtx.drawImage(img, 0, 0, width, height);
-    return;
-  }
-
-  mCtx.fillStyle = '#141418';
-  mCtx.fillRect(0, 0, width, height);
-
-  mCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+function drawBaseCanvas(img, w, h) {
+  mCtx.clearRect(0, 0, w, h);
+  if (img) { mCtx.drawImage(img, 0, 0, w, h); return; }
+  mCtx.fillStyle = '#0a0a0e';
+  mCtx.fillRect(0, 0, w, h);
+  mCtx.strokeStyle = 'rgba(255,255,255,0.04)';
   mCtx.lineWidth = 1;
-  for (let x = 0; x <= width; x += 40) {
-    mCtx.beginPath();
-    mCtx.moveTo(x, 0);
-    mCtx.lineTo(x, height);
-    mCtx.stroke();
-  }
-  for (let y = 0; y <= height; y += 40) {
-    mCtx.beginPath();
-    mCtx.moveTo(0, y);
-    mCtx.lineTo(width, y);
-    mCtx.stroke();
-  }
-
-  mCtx.fillStyle = 'rgba(255,255,255,0.85)';
-  mCtx.font = '16px JetBrains Mono';
-  mCtx.fillText('Image preview unavailable', 24, 36);
-  mCtx.fillStyle = 'rgba(255,255,255,0.45)';
-  mCtx.font = '12px JetBrains Mono';
-  mCtx.fillText('원본 이미지를 불러오지 못해 포즈 오버레이만 표시합니다.', 24, 58);
+  for (let x = 0; x <= w; x += 48) { mCtx.beginPath(); mCtx.moveTo(x, 0); mCtx.lineTo(x, h); mCtx.stroke(); }
+  for (let y = 0; y <= h; y += 48) { mCtx.beginPath(); mCtx.moveTo(0, y); mCtx.lineTo(w, y); mCtx.stroke(); }
+  mCtx.fillStyle = 'rgba(255,255,255,0.6)';
+  mCtx.font = '13px Space Mono';
+  mCtx.fillText('Image preview unavailable', 20, 32);
 }
 
-/**
- * 이미지의 원본 비율에 맞춰 메인 및 오버레이 캔버스의 크기를 동적으로 조정합니다.
- * @param {number} w - 이미지의 원본 너비 (naturalWidth)
- * @param {number} h - 이미지의 원본 높이 (naturalHeight)
- * @returns {object} {cw, ch, scale} - 조정된 캔버스 너비, 높이 및 이미지 대비 스케일 비율
- */
 function resizeCanvases(w, h) {
   const panel = document.getElementById('canvasPanel');
-  const pw = panel.clientWidth;
-  const ph = panel.clientHeight;
-
-  const hScale = pw / w;
-  const vScale = ph / h;
-  const scale = Math.min(hScale, vScale) * 0.92;
-
-  const cw = Math.round(w * scale);
-  const ch = Math.round(h * scale);
-
-  mainCanvas.width = cw;
-  mainCanvas.height = ch;
-  mainCanvas.style.width = cw + 'px';
-  mainCanvas.style.height = ch + 'px';
-
-  overlayCanvas.width = cw;
-  overlayCanvas.height = ch;
-  overlayCanvas.style.width = cw + 'px';
-  overlayCanvas.style.height = ch + 'px';
-
+  const pw = panel.clientWidth, ph = panel.clientHeight;
+  const scale = Math.min(pw / w, ph / h) * 0.92;
+  const cw = Math.round(w * scale), ch = Math.round(h * scale);
+  mainCanvas.width = cw; mainCanvas.height = ch;
+  mainCanvas.style.width = cw + 'px'; mainCanvas.style.height = ch + 'px';
+  overlayCanvas.width = cw; overlayCanvas.height = ch;
+  overlayCanvas.style.width = cw + 'px'; overlayCanvas.style.height = ch + 'px';
   return {cw, ch, scale};
 }
 
-function getAngleLabel(angleValue, cameraAngle) {
-  if (cameraAngle === 'highAngle' || angleValue <= -10) return 'HIGH ANGLE';
-  if (cameraAngle === 'lowAngle' || angleValue >= 10) return 'LOW ANGLE';
+function getAngleLabel(val, cameraAngle) {
+  if (cameraAngle === 'highAngle' || val <= -10) return 'HIGH ANGLE';
+  if (cameraAngle === 'lowAngle' || val >= 10) return 'LOW ANGLE';
   return 'EYE LEVEL';
 }
 
 function updateAngleVisualization(angleValue, cameraAngle) {
-  const normalizedAngle = Number.isFinite(angleValue) ? angleValue : 0;
-  const forwardTilt = clamp(Math.abs(normalizedAngle), 0, 85) / 85;
-  const topInsetPx = 2.5 + (forwardTilt * 4.25);
-  const label = getAngleLabel(normalizedAngle, cameraAngle);
+  const norm = Number.isFinite(angleValue) ? angleValue : 0;
+  const t = clamp(Math.abs(norm), 0, 85) / 85;
+  const topInset = 2.5 + (t * 4.25);
+  const label = getAngleLabel(norm, cameraAngle);
 
-  document.querySelectorAll('.tilt-phone').forEach((phone) => {
-    phone.style.setProperty('--top-inset', `${topInsetPx.toFixed(1)}px`);
+  document.querySelectorAll('.tilt-phone, #tiltPhonePanel').forEach(el => {
+    el.style.setProperty('--top-inset', `${topInset.toFixed(1)}px`);
   });
 
-  document.getElementById('tiltAngleValue').textContent = `${normalizedAngle.toFixed(1)}°`;
-  document.getElementById('tiltAngleLabel').innerHTML = `<strong>${label}</strong>`;
-  document.getElementById('angleBadge').textContent = `${label} ${normalizedAngle.toFixed(1)}°`;
+  const tiltAngleValueEl = document.getElementById('tiltAngleValue');
+  if (tiltAngleValueEl) tiltAngleValueEl.textContent = `${norm.toFixed(1)}°`;
+
+  const tiltAngleLabelEl = document.getElementById('tiltAngleLabel');
+  if (tiltAngleLabelEl) tiltAngleLabelEl.innerHTML = `<strong>${label}</strong>`;
+
+  const tiltAngleLabelPanelEl = document.getElementById('tiltAngleLabelPanel');
+  if (tiltAngleLabelPanelEl) tiltAngleLabelPanelEl.innerHTML = `<strong style="color:var(--amber)">${label}</strong>`;
+  const angleBadgeEl = document.getElementById('angleBadge');
+  if (angleBadgeEl) angleBadgeEl.textContent = `${label}  ${norm.toFixed(1)}°`;
 }
 
-function formatExposureTime(exposureTime) {
-  if (!Number.isFinite(exposureTime) || exposureTime <= 0) return null;
-  if (exposureTime >= 1) return `${exposureTime.toFixed(1)}s`;
-  return `1/${Math.round(1 / exposureTime)}s`;
+function formatExposureTime(t) {
+  if (!Number.isFinite(t) || t <= 0) return null;
+  return t >= 1 ? `${t.toFixed(1)}s` : `1/${Math.round(1/t)}s`;
 }
 
 function updateLensInfo(exifInfo = {}, focalLengthInfo = {}) {
-  const eqFocalLength = focalLengthInfo.focalLength35mm ?? exifInfo.focalLength35mm;
-  const focalLength = exifInfo.focalLength;
-  const aperture = exifInfo.aperture;
-  const iso = exifInfo.iso;
-  const exposureTime = formatExposureTime(exifInfo.exposureTime);
-
-  document.getElementById('lensInfoMain').textContent = `${eqFocalLength ?? '—'}mm eq · f/${aperture ?? '—'}`;
-  document.getElementById('lensInfoSub').textContent = `${focalLength ?? '—'}mm · ISO ${iso ?? '—'}${exposureTime ? ` · ${exposureTime}` : ''}`;
+  const eq = focalLengthInfo.focalLength35mm ?? exifInfo.focalLength35mm;
+  const fl = exifInfo.focalLength, ap = exifInfo.aperture, iso = exifInfo.iso;
+  const et = formatExposureTime(exifInfo.exposureTime);
+  document.getElementById('lensInfoMain').textContent = `${eq ?? '—'}mm eq · f/${ap ?? '—'}`;
+  document.getElementById('lensInfoSub').textContent = `${fl ?? '—'}mm · ISO ${iso ?? '—'}${et ? ` · ${et}` : ''}`;
   document.getElementById('lensInfoModel').textContent = exifInfo.lensModel || 'Lens metadata unavailable';
 }
 
 function updateImageMeta(data = {}) {
-  const ref = data.refAnalysisOnly || {};
-  const refInput = ref.refInput || {};
+  const ref = data.refAnalysisOnly || {}, refInput = ref.refInput || {};
   const title = data.imgTitle || 'Untitled Image';
   const desc = data.imgDesc || '설명이 없습니다.';
   const url = data.imgUrl || refInput.imagePath || IMAGE_URL;
-  const tags = Array.isArray(data.imgTag)
-    ? data.imgTag
-    : (Array.isArray(data.imgCategory) ? data.imgCategory : []);
+  const tags = Array.isArray(data.imgTag) ? data.imgTag : (Array.isArray(data.imgCategory) ? data.imgCategory : []);
 
   document.getElementById('imgTitleText').textContent = title;
   document.getElementById('imgDescText').textContent = desc;
   document.getElementById('imgUrlText').textContent = url;
-  document.querySelector('.breadcrumb').textContent = `ref / ${url}`;
+  document.getElementById('breadcrumbName').textContent = url.split('/').pop();
+  document.querySelector('.breadcrumb').textContent = 'ref /';
 
   const tagWrap = document.getElementById('imgTagsText');
   tagWrap.innerHTML = '';
-  if (!tags.length) {
+  const tagList = tags.length ? tags : ['#no-tag'];
+  tagList.slice(0, 6).forEach((tag) => {
     const chip = document.createElement('span');
-    chip.className = 'topbar-tag';
-    chip.textContent = '#no-tag';
-    tagWrap.appendChild(chip);
-    return;
-  }
-
-  tags.slice(0, 6).forEach((tag) => {
-    const chip = document.createElement('span');
-    chip.className = 'topbar-tag';
-    chip.textContent = `#${tag}`;
+    chip.className = 'tag-chip';
+    chip.textContent = tag.startsWith('#') ? tag : `#${tag}`;
     tagWrap.appendChild(chip);
   });
 }
 
-function getTiltLineYPct(t) {
-  const y = 0.12 + 0.72 * Math.sin(Math.PI * clamp(t, 0, 1));
-  return y * 100;
-}
+function getTiltLineYPct(t) { return (0.12 + 0.72 * Math.sin(Math.PI * clamp(t, 0, 1))) * 100; }
 
-function positionMarker(elementId, t, yPct, rotationDeg = 0) {
-  const el = document.getElementById(elementId);
+function positionMarker(id, t, yPct, rot = 0) {
+  const el = document.getElementById(id);
   if (!el) return;
   el.style.left = `${clamp(t, 0, 1) * 100}%`;
   el.style.top = `${clamp(yPct, 0, 100)}%`;
-  el.style.transform = `translate(-50%, -50%) rotate(${rotationDeg}deg)`;
+  el.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
 }
 
 function updateCameraContext(ref = {}) {
-  const framing = ref.framingResult || {};
-  const distance = ref.distanceEstimation || {};
+  const framing = ref.framingResult || {}, distance = ref.distanceEstimation || {};
   const angleValue = Number(framing.cameraAngleValue);
   const angleLabel = getAngleLabel(angleValue, framing.cameraAngle);
-  const distanceM = Number(distance.estimatedDistanceM);
+  const distM = Number(distance.estimatedDistanceM);
   const nose = framing.nosePosition || null;
-  const shotType = framing.shotType;
-  const shotConfidence = Number(framing.shotTypeConfidence);
-  const shoulderRatio = Number(distance.shoulderRatio);
-  const bodyType = distance.bodyTypeAssumption;
 
   state.nosePosition = nose;
 
   document.getElementById('camAngleText').textContent = `${angleLabel} · ${toFixedNumber(angleValue, 1)}°`;
-  document.getElementById('distanceText').textContent = `${toFixedNumber(distanceM, 2)} m`;
-  document.getElementById('shotTypeText').textContent = humanizeToken(shotType);
-  document.getElementById('shotConfText').textContent = toFixedNumber(shotConfidence, 2);
-  document.getElementById('subjectDistanceText').textContent = `${toFixedNumber(distanceM, 2)} m`;
-  document.getElementById('shoulderRatioText').textContent = toFixedNumber(shoulderRatio, 3);
-  document.getElementById('bodyTypeText').textContent = bodyType || '—';
+  document.getElementById('distanceText').textContent = `${toFixedNumber(distM, 2)} m`;
+  document.getElementById('shotTypeText').textContent = humanizeToken(framing.shotType);
+  document.getElementById('shotConfText').textContent = toFixedNumber(Number(framing.shotTypeConfidence), 2);
+  document.getElementById('subjectDistanceText').textContent = `${toFixedNumber(distM, 2)} m`;
+  document.getElementById('shoulderRatioText').textContent = toFixedNumber(Number(distance.shoulderRatio), 3);
+  document.getElementById('bodyTypeText').textContent = distance.bodyTypeAssumption || '—';
   document.getElementById('nosePosText').textContent = nose
     ? `x ${toFixedNumber(Number(nose.x), 3)} · y ${toFixedNumber(Number(nose.y), 3)}`
     : 'x — · y —';
+
+  // Score
+  const score = Number(framing.overallScore);
+  if (Number.isFinite(score)) {
+    document.getElementById('overallScore').textContent = score.toFixed(2);
+    document.getElementById('scoreFillBar').style.width = `${(score * 100).toFixed(0)}%`;
+  }
 
   const tiltT = clamp((angleValue + 90) / 180, 0, 1);
   const tiltY = getTiltLineYPct(tiltT);
   positionMarker('tiltLineCamera', tiltT, tiltY, clamp(angleValue, -80, 80) / 4);
 
-  const distanceT = clamp((distanceM - 0.5) / 4.5, 0, 1);
-  positionMarker('distanceLineCamera', distanceT, 50, 0);
+  const distT = clamp((distM - 0.5) / 4.5, 0, 1);
+  positionMarker('distanceLineCamera', distT, 50, 0);
 }
 
 async function loadSampleData() {
   try {
-    const response = await fetch(JSON_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    const embedded = document.getElementById('embeddedSampleData');
-    if (!embedded?.textContent?.trim()) {
-      throw error;
-    }
-    console.warn('외부 JSON 로딩에 실패하여 인라인 샘플 데이터를 사용합니다.', error);
-    return JSON.parse(embedded.textContent);
+    const r = await fetch(JSON_URL);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  } catch (e) {
+    const el = document.getElementById('embeddedSampleData');
+    if (!el?.textContent?.trim()) throw e;
+    console.warn('외부 JSON 로딩 실패, 인라인 데이터 사용', e);
+    return JSON.parse(el.textContent);
   }
 }
 
@@ -1131,72 +886,44 @@ function parseKps(hex, count) {
   for (let i = 0; i < count; i++) {
     const off = i * 12;
     if (off + 12 > hex.length) break;
-    kps.push({
-      x: decodeHex(hex.slice(off, off+4)),
-      y: decodeHex(hex.slice(off+4, off+8)),
-      conf: decodeHex(hex.slice(off+8, off+12))
-    });
+    kps.push({ x: decodeHex(hex.slice(off, off+4)), y: decodeHex(hex.slice(off+4, off+8)), conf: decodeHex(hex.slice(off+8, off+12)) });
   }
   return kps;
 }
 
 function getKpStats(kps) {
-  if (!kps.length) {
-    return {minX: 0, maxX: 0, minY: 0, maxY: 0, outOfRangeCount: 0};
-  }
-
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minY = Infinity;
-  let maxY = -Infinity;
-  let outOfRangeCount = 0;
-
-  kps.forEach((kp) => {
-    minX = Math.min(minX, kp.x);
-    maxX = Math.max(maxX, kp.x);
-    minY = Math.min(minY, kp.y);
-    maxY = Math.max(maxY, kp.y);
-    if (kp.x < 0 || kp.x > 1 || kp.y < 0 || kp.y > 1) outOfRangeCount += 1;
+  if (!kps.length) return {minX:0, maxX:0, minY:0, maxY:0, outOfRangeCount:0};
+  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity, out=0;
+  kps.forEach(k => {
+    minX = Math.min(minX, k.x); maxX = Math.max(maxX, k.x);
+    minY = Math.min(minY, k.y); maxY = Math.max(maxY, k.y);
+    if (k.x < 0 || k.x > 1 || k.y < 0 || k.y > 1) out++;
   });
-
-  return {minX, maxX, minY, maxY, outOfRangeCount};
+  return {minX, maxX, minY, maxY, outOfRangeCount: out};
 }
 
 function projectKpsIntoBbox(kps, bbox) {
   if (!kps.length) return kps;
-  const stats = getKpStats(kps);
-  const rangeX = Math.max(stats.maxX - stats.minX, 1e-6);
-  const rangeY = Math.max(stats.maxY - stats.minY, 1e-6);
-
-  return kps.map((kp) => {
-    const nx = (kp.x - stats.minX) / rangeX;
-    const ny = (kp.y - stats.minY) / rangeY;
-    return {
-      x: clamp(bbox.x + nx * bbox.w, 0, 1),
-      y: clamp(bbox.y + ny * bbox.h, 0, 1),
-      conf: clamp(kp.conf, 0, 1)
-    };
-  });
+  const s = getKpStats(kps);
+  const rx = Math.max(s.maxX - s.minX, 1e-6), ry = Math.max(s.maxY - s.minY, 1e-6);
+  return kps.map(k => ({
+    x: clamp(bbox.x + ((k.x - s.minX) / rx) * bbox.w, 0, 1),
+    y: clamp(bbox.y + ((k.y - s.minY) / ry) * bbox.h, 0, 1),
+    conf: clamp(k.conf, 0, 1)
+  }));
 }
 
-function adaptKpsToImageSpace(kps, bbox, declaredCount) {
-  const stats = getKpStats(kps);
-  const needsProjection = stats.outOfRangeCount > 0;
-
-  if (!needsProjection) return kps;
-
-  console.warn(
-    `키포인트 좌표를 BBox 기준으로 재투영했습니다. outOfRange=${stats.outOfRangeCount}, parsed=${kps.length}/${declaredCount}`,
-    stats
-  );
-
+function adaptKpsToImageSpace(kps, bbox, dc) {
+  const s = getKpStats(kps);
+  if (!s.outOfRangeCount) return kps;
+  console.warn(`키포인트 재투영: out=${s.outOfRangeCount}`, s);
   return projectKpsIntoBbox(kps, bbox);
 }
 
-function getGroup(idx) {
-  if (idx <= 16) return 'body';
-  if (idx <= 22) return 'foot';
-  if (idx <= 90) return 'face';
+function getGroup(i) {
+  if (i <= 16) return 'body';
+  if (i <= 22) return 'foot';
+  if (i <= 90) return 'face';
   return 'hand';
 }
 
@@ -1204,10 +931,9 @@ function draw() {
   const {width: cw, height: ch} = overlayCanvas;
   oCtx.clearRect(0, 0, cw, ch);
   if (!state.person) return;
+  const kps = state.person.kps, thr = state.confThreshold;
 
-  const kps = state.person.kps;
-  const thr = state.confThreshold;
-  const drawConnection = (a, b, color, width = 2) => {
+  const conn = (a, b, color, w=2) => {
     const ka = kps[a], kb = kps[b];
     if (!ka || !kb) return;
     oCtx.beginPath();
@@ -1215,31 +941,20 @@ function draw() {
     oCtx.lineTo(kb.x * cw, kb.y * ch);
     oCtx.strokeStyle = color;
     oCtx.globalAlpha = (ka.conf < thr || kb.conf < thr) ? 0.1 : Math.min(ka.conf, kb.conf);
-    oCtx.lineWidth = width;
+    oCtx.lineWidth = w;
     oCtx.stroke();
   };
 
-  // Draw Skeleton
   if (state.showSkeleton) {
-    if (state.showGroups.body) {
-      BODY_CONNECTIONS.forEach(([a, b]) => drawConnection(a, b, GROUP_COLORS.body, 2));
-    }
-    if (state.showGroups.foot) {
-      FOOT_CONNECTIONS.forEach(([a, b]) => drawConnection(a, b, GROUP_COLORS.foot, 1.8));
-    }
-    // [추가됨] Face 스켈레톤 렌더링
-    if (state.showGroups.face) {
-      FACE_CONNECTIONS.forEach(([a, b]) => drawConnection(a, b, GROUP_COLORS.face, 1.0));
-    }
+    if (state.showGroups.body) BODY_CONNECTIONS.forEach(([a,b]) => conn(a, b, GROUP_COLORS.body, 2));
+    if (state.showGroups.foot) FOOT_CONNECTIONS.forEach(([a,b]) => conn(a, b, GROUP_COLORS.foot, 1.8));
+    if (state.showGroups.face) FACE_CONNECTIONS.forEach(([a,b]) => conn(a, b, GROUP_COLORS.face, 1.0));
     if (state.showGroups.hand) {
-      const leftStart = 91;
-      const rightStart = 112;
-      HAND_CONNECTIONS.forEach(([a, b]) => drawConnection(leftStart + a, leftStart + b, GROUP_COLORS.hand, 1.4));
-      HAND_CONNECTIONS.forEach(([a, b]) => drawConnection(rightStart + a, rightStart + b, GROUP_COLORS.hand, 1.4));
+      HAND_CONNECTIONS.forEach(([a,b]) => conn(91+a, 91+b, GROUP_COLORS.hand, 1.4));
+      HAND_CONNECTIONS.forEach(([a,b]) => conn(112+a, 112+b, GROUP_COLORS.hand, 1.4));
     }
   }
 
-  // Draw Dots
   if (state.showDots) {
     kps.forEach((kp, i) => {
       const g = getGroup(i);
@@ -1253,45 +968,67 @@ function draw() {
   }
 
   if (state.nosePosition) {
-    const nx = Number(state.nosePosition.x) * cw;
-    const ny = Number(state.nosePosition.y) * ch;
-
+    const nx = Number(state.nosePosition.x) * cw, ny = Number(state.nosePosition.y) * ch;
     oCtx.save();
-    oCtx.strokeStyle = 'rgba(255,245,170,0.95)';
+    oCtx.strokeStyle = 'rgba(110,231,183,0.9)';
     oCtx.lineWidth = 1.5;
-
     oCtx.beginPath();
-    oCtx.moveTo(nx - 10, ny);
-    oCtx.lineTo(nx + 10, ny);
-    oCtx.moveTo(nx, ny - 10);
-    oCtx.lineTo(nx, ny + 10);
+    oCtx.moveTo(nx-10, ny); oCtx.lineTo(nx+10, ny);
+    oCtx.moveTo(nx, ny-10); oCtx.lineTo(nx, ny+10);
     oCtx.stroke();
-
     oCtx.beginPath();
-    oCtx.arc(nx, ny, 12, 0, Math.PI * 2);
-    oCtx.strokeStyle = 'rgba(255,245,170,0.55)';
+    oCtx.arc(nx, ny, 12, 0, Math.PI*2);
+    oCtx.strokeStyle = 'rgba(110,231,183,0.4)';
     oCtx.stroke();
-
-    oCtx.fillStyle = 'rgba(255,245,170,0.95)';
-    oCtx.font = '11px JetBrains Mono';
-    oCtx.fillText('NOSE', nx + 14, ny - 12);
+    oCtx.fillStyle = 'rgba(110,231,183,0.9)';
+    oCtx.font = '10px Space Mono';
+    oCtx.fillText('NOSE', nx+14, ny-12);
     oCtx.restore();
   }
 
-  // Draw BBox
   if (state.showBbox) {
     const b = state.person.bbox;
-    oCtx.strokeStyle = '#fff';
-    oCtx.setLineDash([5, 5]);
-    oCtx.strokeRect(b.x * cw, b.y * ch, b.w * cw, b.h * ch);
+    const bx = b.x * cw;
+    const by = b.y * ch;
+    const bw = b.w * cw;
+    const bh = b.h * ch;
+
+    oCtx.save();
+    oCtx.globalAlpha = 1;
+
+    oCtx.fillStyle = 'rgba(110,231,183,0.08)';
+    oCtx.fillRect(bx, by, bw, bh);
+
+    oCtx.strokeStyle = 'rgba(110,231,183,0.95)';
+    oCtx.lineWidth = 2;
+    oCtx.setLineDash([8, 4]);
+    oCtx.shadowColor = 'rgba(110,231,183,0.45)';
+    oCtx.shadowBlur = 8;
+    oCtx.strokeRect(bx, by, bw, bh);
     oCtx.setLineDash([]);
+    oCtx.shadowBlur = 0;
+
+    const c = 10;
+    oCtx.strokeStyle = 'rgba(110,231,183,1)';
+    oCtx.lineWidth = 2.5;
+    // top-left
+    oCtx.beginPath(); oCtx.moveTo(bx, by + c); oCtx.lineTo(bx, by); oCtx.lineTo(bx + c, by); oCtx.stroke();
+    // top-right
+    oCtx.beginPath(); oCtx.moveTo(bx + bw - c, by); oCtx.lineTo(bx + bw, by); oCtx.lineTo(bx + bw, by + c); oCtx.stroke();
+    // bottom-left
+    oCtx.beginPath(); oCtx.moveTo(bx, by + bh - c); oCtx.lineTo(bx, by + bh); oCtx.lineTo(bx + c, by + bh); oCtx.stroke();
+    // bottom-right
+    oCtx.beginPath(); oCtx.moveTo(bx + bw - c, by + bh); oCtx.lineTo(bx + bw, by + bh); oCtx.lineTo(bx + bw, by + bh - c); oCtx.stroke();
+
+    oCtx.restore();
   }
   oCtx.globalAlpha = 1;
 }
 
 async function init() {
-  const lo = document.getElementById('loadingOverlay'), fill = document.getElementById('loadingFill'), txt = document.getElementById('loadingText');
-  
+  const lo = document.getElementById('loadingOverlay');
+  const fill = document.getElementById('loadingFill');
+  const txt = document.getElementById('loadingText');
   try {
     txt.textContent = '데이터 로딩 중...'; fill.style.width = '30%';
     const data = await loadSampleData();
@@ -1299,56 +1036,36 @@ async function init() {
     fill.style.width = '60%';
     txt.textContent = '이미지 로딩 중...';
 
-    const img = await loadImage(data.imgUrl || IMAGE_URL).catch((error) => {
-      console.warn('원본 이미지를 불러오지 못했습니다. 플레이스홀더로 대체합니다.', error);
-      return null;
-    });
+    const img = await loadImage(data.imgUrl || IMAGE_URL).catch(e => { console.warn('이미지 로딩 실패, 플레이스홀더 사용', e); return null; });
 
     const ref = data.refAnalysisOnly;
     const bRaw = ref.BBox;
-    const declaredCount = Number(ref.poseKeypoints.count) || 0;
-    const bbox = {
-      x: decodeHex(bRaw.slice(0,4)),
-      y: decodeHex(bRaw.slice(4,8)),
-      w: decodeHex(bRaw.slice(8,12)),
-      h: decodeHex(bRaw.slice(12,16))
-    };
-    const parsedKps = parseKps(ref.poseKeypoints.kp, declaredCount);
-    const adaptedKps = adaptKpsToImageSpace(parsedKps, bbox, declaredCount);
+    const dc = Number(ref.poseKeypoints.count) || 0;
+    const bbox = { x: decodeHex(bRaw.slice(0,4)), y: decodeHex(bRaw.slice(4,8)), w: decodeHex(bRaw.slice(8,12)), h: decodeHex(bRaw.slice(12,16)) };
+    const parsedKps = parseKps(ref.poseKeypoints.kp, dc);
+    const adaptedKps = adaptKpsToImageSpace(parsedKps, bbox, dc);
 
-    state.person = {
-      bbox,
-      kps: adaptedKps,
-      rawBbox: bRaw
-    };
-    state.kpDeclaredCount = declaredCount;
+    state.person = { bbox, kps: adaptedKps, rawBbox: bRaw };
+    state.kpDeclaredCount = dc;
     state.kpParsedCount = adaptedKps.length;
     state.img = img;
 
-    // Canvas Size
-    const sourceWidth = img?.width || ref.refInput.imageSize.width || 736;
-    const sourceHeight = img?.height || ref.refInput.imageSize.height || 981;
-    state.sourceWidth = sourceWidth;
-    state.sourceHeight = sourceHeight;
-    const {cw, ch} = resizeCanvases(sourceWidth, sourceHeight);
+    const sw = img?.width || ref.refInput.imageSize.width || 736;
+    const sh = img?.height || ref.refInput.imageSize.height || 981;
+    state.sourceWidth = sw; state.sourceHeight = sh;
+    const {cw, ch} = resizeCanvases(sw, sh);
 
     drawBaseCanvas(img, cw, ch);
-    
-    // UI Update
     updateAngleVisualization(ref.framingResult.cameraAngleValue, ref.framingResult.cameraAngle);
     updateLensInfo(ref.exifInfo, ref.focalLengthInfo);
     updateCameraContext(ref);
     document.getElementById('hudKp').textContent = `${state.kpParsedCount}/${state.kpDeclaredCount}`;
 
-    if (state.kpParsedCount < state.kpDeclaredCount) {
-      console.warn(`포즈 데이터가 부족합니다. declared=${state.kpDeclaredCount}, parsed=${state.kpParsedCount}`);
-    }
-
     draw();
     fill.style.width = '100%';
-    lo.style.display = 'none';
-  } catch (e) {
-    txt.textContent = '오류 발생: ' + formatErrorMessage(e);
+    setTimeout(() => { lo.style.opacity = '0'; lo.style.transition = 'opacity 0.3s'; setTimeout(() => lo.style.display = 'none', 300); }, 200);
+  } catch(e) {
+    txt.textContent = '오류: ' + formatErrorMessage(e);
     console.error(e);
   }
 }
@@ -1363,7 +1080,7 @@ document.getElementById('btnSkeleton').onclick = (e) => { state.showSkeleton = !
 document.getElementById('btnDots').onclick = (e) => { state.showDots = !state.showDots; e.target.classList.toggle('active'); draw(); };
 document.getElementById('btnBbox').onclick = (e) => { state.showBbox = !state.showBbox; e.target.classList.toggle('active'); draw(); };
 
-document.querySelectorAll('.group-item').forEach(el => {
+document.querySelectorAll('.group-chip').forEach(el => {
   el.onclick = () => {
     const g = el.dataset.group;
     state.showGroups[g] = !state.showGroups[g];
@@ -1375,35 +1092,25 @@ document.querySelectorAll('.group-item').forEach(el => {
 overlayCanvas.onmousemove = (e) => {
   if (!state.person) return;
   const r = overlayCanvas.getBoundingClientRect();
-  const x = (e.clientX - r.left) * (overlayCanvas.width / r.width), y = (e.clientY - r.top) * (overlayCanvas.height / r.height);
-  let near = null;
-  let minD = Infinity;
+  const x = (e.clientX - r.left) * (overlayCanvas.width / r.width);
+  const y = (e.clientY - r.top) * (overlayCanvas.height / r.height);
+  let near = null, minD = Infinity;
   state.person.kps.forEach((kp, i) => {
     const d = Math.sqrt((kp.x*overlayCanvas.width - x)**2 + (kp.y*overlayCanvas.height - y)**2);
-    if (d < 10 && d < minD) {
-      near = {kp, i};
-      minD = d;
-    }
+    if (d < 10 && d < minD) { near = {kp, i}; minD = d; }
   });
   const info = document.getElementById('kpInfo');
   if (near) {
     info.style.display = 'block';
     const g = getGroup(near.i);
     info.innerHTML = `idx <span style="color:${GROUP_COLORS[g]}">${near.i}</span> · ${g}<br>conf: ${near.kp.conf.toFixed(3)}`;
-
-    const kpX = near.kp.x * r.width;
-    const kpY = near.kp.y * r.height;
-    let left = kpX + 12;
-    let top = kpY - 12;
-
+    const kpX = near.kp.x * r.width, kpY = near.kp.y * r.height;
+    let left = kpX + 12, top = kpY - 12;
     if (left + info.offsetWidth > r.width - 8) left = kpX - info.offsetWidth - 12;
     if (left < 8) left = 8;
-
     if (top < 8) top = kpY + 12;
     if (top + info.offsetHeight > r.height - 8) top = r.height - info.offsetHeight - 8;
-
-    info.style.left = `${left}px`;
-    info.style.top = `${top}px`;
+    info.style.left = `${left}px`; info.style.top = `${top}px`;
   } else info.style.display = 'none';
 };
 
@@ -1411,9 +1118,9 @@ init();
 
 window.addEventListener('resize', () => {
   if (!state.person) return;
-  const sourceWidth = state.img?.width || state.sourceWidth;
-  const sourceHeight = state.img?.height || state.sourceHeight;
-  const {cw, ch} = resizeCanvases(sourceWidth, sourceHeight);
+  const sw = state.img?.width || state.sourceWidth;
+  const sh = state.img?.height || state.sourceHeight;
+  const {cw, ch} = resizeCanvases(sw, sh);
   drawBaseCanvas(state.img, cw, ch);
   draw();
 });
