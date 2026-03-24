@@ -67,18 +67,18 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 
 /* ── LEFT PANEL ── */
 .lpanel{background:var(--bg-panel);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;grid-row:1/3}
+  display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;scrollbar-color:var(--bg-hover) transparent;grid-row:1/3}
+.lpanel::-webkit-scrollbar{width:3px}
+.lpanel::-webkit-scrollbar-thumb{background:var(--bg-hover)}
 .phead{padding:9px 13px;border-bottom:1px solid var(--border);
   font-size:8px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--t3);
   display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .phtag{font-size:8px;font-family:var(--mono);padding:2px 6px;border-radius:3px;
   background:var(--a2-d);color:var(--a2);border:1px solid rgba(129,140,248,.15)}
 .rcvs-area{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
-  background:#060609;overflow:hidden;min-height:0}
-.rcvs-area::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-  background-size:30px 30px}
+  background:var(--bg-panel);overflow:hidden;min-height:0}
+.rcvs-area::before{content:none}
 .refstage{position:relative;width:224px;height:299px;z-index:2;flex-shrink:0}
 #refSampleImg,#refCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 #refSampleImg{object-fit:contain;object-position:top center;opacity:.35;z-index:1;pointer-events:none}
@@ -88,24 +88,34 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
   border:1px solid rgba(129,140,248,.15);backdrop-filter:blur(8px);
   padding:6px 9px;border-radius:var(--rsm)}
 .hudchip span{color:var(--a2)}
-.rmeta{padding:10px 13px;border-top:1px solid var(--border);flex-shrink:0}
+.rmeta{padding:10px 13px;border-top:1px solid var(--border);flex-shrink:0;min-height:184px}
 .rname{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:6px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px 0}
-.rrow{display:flex;justify-content:space-between;font-size:9px;font-family:var(--mono)}
+.rmeta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:6px}
+.rmeta-sep{height:1px;background:var(--border);margin-bottom:8px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.rrow{display:flex;justify-content:space-between;align-items:center;font-size:9px;font-family:var(--mono);
+  line-height:1.55;padding:1px 0;gap:8px}
 .rrow .k{color:var(--t3)}.rrow .v{color:var(--a2)}
 
 /* ── CENTER ── */
-.center{display:flex;flex-direction:column;background:#060609;overflow:hidden;position:relative;grid-row:1/2}
+.center{display:flex;flex-direction:column;background:#06060a;overflow:hidden;position:relative;grid-row:1/2}
 .stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
 .stage::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.009) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.009) 1px,transparent 1px);
-  background-size:40px 40px;pointer-events:none}
-.cinner{position:relative;display:inline-block;z-index:2;flex:0 0 auto}
-#liveCvs,#poseCvs,#ghostCvs{display:block}
-#poseCvs,#ghostCvs{position:absolute;top:0;left:0;pointer-events:none}
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none}
+.cinner{position:relative;display:inline-block;z-index:2;flex:0 0 auto;
+  background:#101116;border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden}
+#liveCvs,#poseCvs,#overlayCvs{display:block}
+#poseCvs,#overlayCvs{position:absolute;top:0;left:0;pointer-events:none}
 .corn{display:none}
+.overlaybtn{position:absolute;top:10px;right:10px;z-index:24;
+  font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:var(--rsm);
+  border:1px solid var(--border-act);background:rgba(7,7,10,.78);color:var(--t1);
+  cursor:pointer;transition:all .15s}
+.overlaybtn:hover{border-color:rgba(110,231,183,.35)}
+.overlaybtn.on{background:var(--acc-d);border-color:rgba(110,231,183,.35);color:var(--acc)}
 .matchhud{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
   display:flex;align-items:center;gap:10px;
   background:rgba(7,7,10,.92);border:1px solid var(--border-act);backdrop-filter:blur(12px);
@@ -220,10 +230,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .kpbub{display:flex;align-items:center;gap:3px;font-size:8px;font-family:var(--mono);
   padding:2px 6px;border-radius:3px;border:1px solid var(--border);background:var(--bg-card)}
 .kpdot{width:5px;height:5px;border-radius:50%}
-.reflink{font-size:9px;font-family:var(--mono);color:var(--a2);text-decoration:none;
-  padding:2px 8px;border-radius:3px;border:1px solid rgba(129,140,248,.25);
-  background:var(--a2-d);white-space:nowrap;flex-shrink:0;transition:all .15s}
-.reflink:hover{background:rgba(129,140,248,.18);border-color:rgba(129,140,248,.45)}
+.reflink{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12px;color:var(--t2);text-decoration:none;
+  padding:5px 8px;border-radius:var(--rsm);background:none;border:none;
+  transition:all .15s;white-space:nowrap;flex-shrink:0}
+.reflink:hover{color:var(--t1);background:var(--bg-card)}
 </style>
 </head>
 <body>
@@ -243,7 +253,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     <span id="topFps" class="topmeta">frame <b>0</b></span>
   </div>
   <div class="topbar-right">
-    <button class="tbtn on" id="btnGhost" onclick="toggleGhost(this)">Ghost ON</button>
     <button class="tbtn" id="btnFreeze" onclick="toggleFreeze(this)">Freeze</button>
     <button class="tbtn" onclick="resetSim()">Reset</button>
   </div>
@@ -262,10 +271,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
       <div class="hudchip" style="top:8px;left:8px">PERSONS&nbsp;<span>1</span><br>KP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>133</span><br>CONF&nbsp;&nbsp;&nbsp;&nbsp;<span>0.89</span></div>
     </div>
     <div class="rmeta">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:6px">
+      <div class="rmeta-head">
         <div class="rname" style="margin-bottom:0">hot1.jpg — 레퍼런스</div>
         <a href="./reference-detail.html" class="reflink" title="레퍼런스 상세 보기">상세 &rsaquo;</a>
       </div>
+      <div class="rmeta-sep"></div>
       <div class="rgrid">
         <div class="rrow"><span class="k">앵글</span><span class="v">EYE LEVEL</span></div>
         <div class="rrow"><span class="k">틸트</span><span class="v">+2°</span></div>
@@ -284,8 +294,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
       <div class="cinner" id="cinner">
         <canvas id="liveCvs" width="340" height="453"></canvas>
         <canvas id="poseCvs" width="340" height="453"></canvas>
-        <canvas id="ghostCvs" width="340" height="453"></canvas>
+        <canvas id="overlayCvs" width="340" height="453"></canvas>
       </div>
+      <button class="overlaybtn on" id="btnOverlay" onclick="toggleOverlay(this)">Overlay ON</button>
       <div class="frov" id="frov"><div class="frlbl">&#9646;&#9646; FROZEN</div></div>
       <div class="matchhud">
       <div class="grow">
@@ -581,7 +592,7 @@ document.getElementById('refSampleImg').src=REF_SOURCE.imageUrl;
 const rCvs=document.getElementById('refCanvas'),   rX=rCvs.getContext('2d');
 const lCvs=document.getElementById('liveCvs'),     lX=lCvs.getContext('2d');
 const pCvs=document.getElementById('poseCvs'),     pX=pCvs.getContext('2d');
-const gCvs=document.getElementById('ghostCvs'),    gX=gCvs.getContext('2d');
+const oCvs=document.getElementById('overlayCvs'),  oX=oCvs.getContext('2d');
 const tCvs=document.getElementById('tlCvs'),       tX=tCvs.getContext('2d');
 
 /* ── Skeleton renderer ── */
@@ -625,41 +636,30 @@ function drawRef(){
 function drawLiveBg(fn){
   const cw=lCvs.width,ch=lCvs.height;
   lX.clearRect(0,0,cw,ch);
-  const bg=lX.createLinearGradient(0,0,0,ch);
-  bg.addColorStop(0,'#cfd4da');
-  bg.addColorStop(1,'#c1c7ce');
-  lX.fillStyle=bg;
+  lX.fillStyle='#101116';
   lX.fillRect(0,0,cw,ch);
-  lX.strokeStyle='rgba(20,24,31,.11)';
-  lX.lineWidth=1;
-  for(let y=0;y<ch;y+=24){
-    lX.beginPath();
-    lX.moveTo(0,y+.5);
-    lX.lineTo(cw,y+.5);
-    lX.stroke();
-  }
 }
 
-/* ── Ghost overlay ── */
-function drawGhost(){
-  gX.clearRect(0,0,gCvs.width,gCvs.height);
-  if(!SIM.ghost) return;
+/* ── Overlay reference ── */
+function drawOverlay(){
+  oX.clearRect(0,0,oCvs.width,oCvs.height);
+  if(!SIM.overlay) return;
   // dashed lines
-  gX.setLineDash([4,3]);
+  oX.setLineDash([4,3]);
   BODY_C.forEach(([a,b])=>{
     const ka=REF[a],kb=REF[b];if(!ka||!kb) return;
-    gX.beginPath();gX.moveTo(ka.x*gCvs.width,ka.y*gCvs.height);
-    gX.lineTo(kb.x*gCvs.width,kb.y*gCvs.height);
-    gX.strokeStyle='rgba(129,140,248,.5)';gX.lineWidth=1.6;gX.globalAlpha=.6;gX.stroke();
+    oX.beginPath();oX.moveTo(ka.x*oCvs.width,ka.y*oCvs.height);
+    oX.lineTo(kb.x*oCvs.width,kb.y*oCvs.height);
+    oX.strokeStyle='rgba(129,140,248,.5)';oX.lineWidth=1.6;oX.globalAlpha=.6;oX.stroke();
   });
-  gX.setLineDash([]);
+  oX.setLineDash([]);
   // solid dots
   REF.slice(0,17).forEach((kp,i)=>{
     if(kp.conf<.2) return;
-    gX.beginPath();gX.arc(kp.x*gCvs.width,kp.y*gCvs.height,3,0,Math.PI*2);
-    gX.fillStyle='#818cf8';gX.globalAlpha=.55;gX.fill();
+    oX.beginPath();oX.arc(kp.x*oCvs.width,kp.y*oCvs.height,3,0,Math.PI*2);
+    oX.fillStyle='#818cf8';oX.globalAlpha=.55;oX.fill();
   });
-  gX.globalAlpha=1;
+  oX.globalAlpha=1;
 }
 
 /* ── Live KP generation ── */
@@ -685,7 +685,7 @@ function matchScore(lkps){
 const HIST=[];
 const HMAX=1800;
 const SIM={
-  frame:0,ghost:true,frozen:false,
+  frame:0,overlay:true,frozen:false,
   tilt:2,shoulder:.41,
   cB:.72,cF:.68,cLH:.61,cRH:.58
 };
@@ -816,11 +816,11 @@ function drawTimeline(){
 }
 
 /* ── Controls ── */
-function toggleGhost(btn){
-  SIM.ghost=!SIM.ghost;
-  btn.textContent=SIM.ghost?'Ghost ON':'Ghost OFF';
-  btn.classList.toggle('on',SIM.ghost);
-  drawGhost();
+function toggleOverlay(btn){
+  SIM.overlay=!SIM.overlay;
+  btn.textContent=SIM.overlay?'Overlay ON':'Overlay OFF';
+  btn.classList.toggle('on',SIM.overlay);
+  drawOverlay();
 }
 function toggleFreeze(btn){
   SIM.frozen=!SIM.frozen;
@@ -855,7 +855,7 @@ document.getElementById('scrub').addEventListener('input',e=>{
   drawLiveBg(entry.frame);
   pX.clearRect(0,0,pCvs.width,pCvs.height);
   if(entry.kps) drawSkel(pX,entry.kps,pCvs.width,pCvs.height,{alpha:1});
-  drawGhost();applyEntry(entry);drawTimeline();
+  drawOverlay();applyEntry(entry);drawTimeline();
 });
 document.getElementById('posBar').addEventListener('click',e=>{
   const r=e.currentTarget.getBoundingClientRect();
@@ -921,7 +921,7 @@ function tick(ts){
     drawLiveBg(e.frame);
     pX.clearRect(0,0,pCvs.width,pCvs.height);
     if(e.kps) drawSkel(pX,e.kps,pCvs.width,pCvs.height,{alpha:1});
-    drawGhost();applyEntry(e);updateSparkline();
+    drawOverlay();applyEntry(e);updateSparkline();
     if(ts-lastTl>80){drawTimeline();lastTl=ts;}
   } else if(!SIM.frozen&&pbIdx<0){
     // Live mode
@@ -941,7 +941,7 @@ function tick(ts){
     drawLiveBg(SIM.frame);
     pX.clearRect(0,0,pCvs.width,pCvs.height);
     drawSkel(pX,kps,pCvs.width,pCvs.height,{alpha:1});
-    drawGhost();applyEntry(e);updateSparkline();
+    drawOverlay();applyEntry(e);updateSparkline();
     if(ts-lastTl>80){drawTimeline();lastTl=ts;}
     if(ts-lastLog>2200){autoLog();lastLog=ts;}
   } else {
