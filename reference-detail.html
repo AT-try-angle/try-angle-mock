@@ -217,13 +217,32 @@
 
     .lens-card {
       top: 16px; left: 16px;
-      margin-top: 80px;
       max-width: 220px;
     }
     .lens-label { font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 5px; }
     .lens-main { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
     .lens-sub { font-size: 11px; font-family: var(--mono); color: var(--text-2); margin-bottom: 2px; }
     .lens-model { font-size: 10px; color: var(--text-3); line-height: 1.4; }
+
+    .subject-card {
+      bottom: 16px; left: 16px;
+      max-width: 280px;
+      width: min(280px, calc(100% - 32px));
+    }
+    .subject-main { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 8px; }
+    .subject-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-2);
+      margin-bottom: 4px;
+    }
+    .subject-line:last-child { margin-bottom: 0; }
+    .subject-key { color: var(--text-3); text-transform: lowercase; }
+    .subject-val { color: var(--text-1); text-align: right; }
 
     .angle-card {
       bottom: 16px; left: 16px;
@@ -274,6 +293,26 @@
       margin-bottom: 8px;
     }
     .ctrl-label { font-size: 9px; font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+
+    .ctrl-stats {
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      background: var(--chip-bg);
+      padding: 7px 8px;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-3);
+      line-height: 1.8;
+    }
+    .ctrl-stats .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .ctrl-stats .stat-val { color: var(--text-1); }
+    .ctrl-stats .stat-val.accent { color: var(--accent); }
 
     .group-grid {
       display: grid;
@@ -487,12 +526,6 @@
         <div class="loading-text" id="loadingText">초기화 중...</div>
       </div>
 
-      <!-- HUD top-left: stats -->
-      <div class="hud-card hud-tl">
-        PERSONS &nbsp;<span id="hudPersons">1</span><br>
-        KP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="accent-val" id="hudKp">—</span>
-      </div>
-
       <!-- Lens info -->
       <div class="hud-card lens-card">
         <div class="lens-label">lens info</div>
@@ -501,9 +534,24 @@
         <div class="lens-model" id="lensInfoModel">—</div>
       </div>
 
+      <!-- Subject info -->
+      <div class="hud-card subject-card">
+        <div class="lens-label">피사체 정보</div>
+        <div class="subject-main" id="shotTypeText">—</div>
+        <div class="subject-line"><span class="subject-key">shot confidence</span><span class="subject-val" id="shotConfText">—</span></div>
+        <div class="subject-line"><span class="subject-key">estimated distance</span><span class="subject-val" id="subjectDistanceText">—</span></div>
+        <div class="subject-line"><span class="subject-key">shoulder ratio</span><span class="subject-val" id="shoulderRatioText">—</span></div>
+        <div class="subject-line"><span class="subject-key">body type</span><span class="subject-val" id="bodyTypeText">—</span></div>
+        <div class="subject-line"><span class="subject-key">nose position</span><span class="subject-val" id="nosePosText">x — · y —</span></div>
+      </div>
+
       <!-- Controls panel top-right -->
       <div class="ctrl-panel">
         <div class="ctrl-card">
+          <div class="ctrl-stats">
+            <div class="stat-row"><span>PERSONS</span><span class="stat-val" id="hudPersons">1</span></div>
+            <div class="stat-row"><span>KP</span><span class="stat-val accent" id="hudKp">—</span></div>
+          </div>
           <div class="ctrl-label">그룹 표시</div>
           <div class="group-grid" id="groupList">
             <div class="group-chip active" data-group="body">
@@ -602,17 +650,6 @@
           </div>
           <div class="dist-ends"><span>near</span><span>far</span></div>
         </div>
-      </div>
-
-      <!-- Subject info -->
-      <div class="panel-section">
-        <div class="section-head">피사체 정보</div>
-        <div class="metric"><span class="metric-key">shot type</span><span class="metric-val accent" id="shotTypeText">—</span></div>
-        <div class="metric"><span class="metric-key">shot confidence</span><span class="metric-val" id="shotConfText">—</span></div>
-        <div class="metric"><span class="metric-key">estimated distance</span><span class="metric-val" id="subjectDistanceText">—</span></div>
-        <div class="metric"><span class="metric-key">shoulder ratio</span><span class="metric-val" id="shoulderRatioText">—</span></div>
-        <div class="metric"><span class="metric-key">body type</span><span class="metric-val" id="bodyTypeText">—</span></div>
-        <div class="metric"><span class="metric-key">nose position</span><span class="metric-val" id="nosePosText">—</span></div>
       </div>
 
       <!-- Pipeline -->
