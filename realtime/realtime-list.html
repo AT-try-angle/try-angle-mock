@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>포즈 데이터 상세</title>
+  <title>실시간 로그 데이터 목록</title>
   <link rel="stylesheet" href="../assets/admin.css">
 </head>
 <body>
@@ -23,44 +23,119 @@
     <main class="main">
       <div class="page-head">
         <div>
-          <h1>포즈 데이터 상세</h1>
-          <p>데이터 ID: PD-241129-1031</p>
+          <h1>실시간 로그 데이터 목록</h1>
+          <p>최근 수집된 포즈 데이터와 AI 추론 결과를 확인할 수 있습니다.</p>
         </div>
         <div class="actions">
-          <a class="btn" href="./realtime-list.html">목록으로</a>
+          <button class="btn" type="button">필터 초기화</button>
+          <button class="btn primary" type="button">데이터 내보내기</button>
         </div>
       </div>
 
-      <div class="preview">
-        <div class="panel" style="padding:12px;">
-          <div class="thumb">Pose Preview Area</div>
+      <div class="grid">
+        <div class="card">
+          <div class="label">오늘 수집 건수</div>
+          <div class="value">124</div>
+        </div>
+        <div class="card">
+          <div class="label">실시간 처리율</div>
+          <div class="value">98.4%</div>
+        </div>
+        <div class="card">
+          <div class="label">오류 의심 건수</div>
+          <div class="value">7</div>
+        </div>
+        <div class="card">
+          <div class="label">평균 Confidence</div>
+          <div class="value">0.91</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>목록</h2>
+          <div class="actions">
+            <input class="input" type="text" placeholder="유저 ID 또는 파일명 검색">
+            <select class="input" aria-label="상태 필터">
+              <option>전체 상태</option>
+              <option>촬영중</option>
+              <option>완료</option>
+            </select>
+          </div>
         </div>
 
-        <div>
-          <div class="panel" style="margin-bottom:12px;">
-            <div class="panel-head"><h2>기본 정보</h2></div>
-            <div style="padding:12px;" class="meta">
-              <div class="meta-row"><div class="k">디바이스</div><div class="v">iPhone15Pro</div></div>
-              <div class="meta-row"><div class="k">유저 ID</div><div class="v">user_43017</div></div>
-              <div class="meta-row"><div class="k">이미지 파일</div><div class="v">pose_00123.jpg</div></div>
-              <div class="meta-row"><div class="k">생성 시간</div><div class="v">2026-04-12 11:02:04</div></div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head"><h2>AI 추론 결과</h2></div>
-            <table>
-              <tbody>
-                <tr><th>Shot Type</th><td>Medium Shot</td></tr>
-                <tr><th>Shot Confidence</th><td>0.92</td></tr>
-                <tr><th>Estimated Distance</th><td>2.50 m</td></tr>
-                <tr><th>Shoulder Ratio</th><td>0.280</td></tr>
-                <tr><th>Body Type</th><td>medium</td></tr>
-                <tr><th>Nose Position</th><td>x 0.53 · y 0.45</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>데이터 ID</th>
+              <th>유저 ID</th>
+              <th>디바이스</th>
+              <th>이미지 파일</th>
+              <th>Shot Type</th>
+              <th>Confidence</th>
+              <th>생성 시간</th>
+              <th>상태</th>
+              <th>열람</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="./realtime-detail.html">PD-241129-1031</a></td>
+              <td>user_43017</td>
+              <td>iPhone15Pro</td>
+              <td>pose_00123.jpg</td>
+              <td>Medium Shot</td>
+              <td>0.92</td>
+              <td>2026-04-12 11:02:04</td>
+              <td><span class="badge">촬영중</span></td>
+              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
+            </tr>
+            <tr>
+              <td><a href="./realtime-detail.html">PD-241129-1030</a></td>
+              <td>user_88902</td>
+              <td>GalaxyS25</td>
+              <td>pose_00122.jpg</td>
+              <td>Close-up Shot</td>
+              <td>0.89</td>
+              <td>2026-04-12 11:01:47</td>
+              <td><span class="badge">촬영중</span></td>
+              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
+            </tr>
+            <tr>
+              <td><a href="./realtime-detail.html">PD-241129-1029</a></td>
+              <td>user_12048</td>
+              <td>iPhone14</td>
+              <td>pose_00121.jpg</td>
+              <td>Full Shot</td>
+              <td>0.95</td>
+              <td>2026-04-12 11:01:31</td>
+              <td><span class="badge">완료</span></td>
+              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
+            </tr>
+            <tr>
+              <td><a href="./realtime-detail.html">PD-241129-1028</a></td>
+              <td>user_77194</td>
+              <td>Pixel9Pro</td>
+              <td>pose_00120.jpg</td>
+              <td>Medium Shot</td>
+              <td>0.62</td>
+              <td>2026-04-12 11:01:16</td>
+              <td><span class="badge">완료</span></td>
+              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
+            </tr>
+            <tr>
+              <td><a href="./realtime-detail.html">PD-241129-1027</a></td>
+              <td>user_04311</td>
+              <td>iPhone15</td>
+              <td>pose_00119.jpg</td>
+              <td>Medium Shot</td>
+              <td>0.94</td>
+              <td>2026-04-12 11:00:58</td>
+              <td><span class="badge">완료</span></td>
+              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
