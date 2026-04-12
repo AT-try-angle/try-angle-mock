@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>포즈 레퍼런스 이미지 상세</title>
+  <link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">TryAngle Admin</div>
+      <div class="nav-title">데이터 관리</div>
+      <ul class="nav-list">
+        <li><a href="../realtime/realtime-list.html">실시간 로그 데이터 목록</a></li>
+      </ul>
+      <div class="nav-title">컨텐츠 관리</div>
+      <ul class="nav-list">
+        <li><a class="active" href="./ref-img-gallery.html">포즈 레퍼런스 이미지 목록</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>포즈 레퍼런스 이미지 상세</h1>
+          <p>메타 데이터(title, desc, tag, bookmark) 관리 화면입니다.</p>
+        </div>
+        <div class="actions">
+          <button class="btn" id="openAiData">AI 데이터 상세 팝업</button>
+          <button class="btn primary">저장</button>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="panel" style="padding:12px;">
+          <div class="thumb">Reference Image Preview</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>메타 데이터</h2></div>
+          <div style="padding:12px; display:grid; gap:10px;">
+            <label>Title<input class="input" style="width:100%;" value="하이앵글 컵포즈"></label>
+            <label>Description<textarea class="input" style="width:100%; min-height:90px;">위에서 아래를 내려다본 하이앵글 구성으로 컵을 강조한 샷</textarea></label>
+            <label>Tags<input class="input" style="width:100%;" value="#하이앵글, #MZ포즈, #OOTD"></label>
+            <label>Bookmark
+              <select class="input" style="width:100%;">
+                <option>미등록</option>
+                <option selected>북마크됨</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="aiModal">
+        <div class="modal-card">
+          <div class="modal-head">
+            <strong>포즈 레퍼런스 이미지 AI 데이터 상세</strong>
+            <button class="btn" id="closeAiData">닫기</button>
+          </div>
+          <div class="modal-body">
+            <div class="meta-row"><div class="k">shot type</div><div class="v">Medium Shot</div></div>
+            <div class="meta-row"><div class="k">shot confidence</div><div class="v">0.92</div></div>
+            <div class="meta-row"><div class="k">estimated distance</div><div class="v">2.50 m</div></div>
+            <div class="meta-row"><div class="k">shoulder ratio</div><div class="v">0.280</div></div>
+            <div class="meta-row"><div class="k">body type</div><div class="v">medium</div></div>
+            <div class="meta-row"><div class="k">nose position</div><div class="v">x 0.53 · y 0.45</div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const modal = document.getElementById('aiModal');
+    document.getElementById('openAiData').addEventListener('click', () => modal.classList.add('open'));
+    document.getElementById('closeAiData').addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

@@ -629,7 +629,7 @@
         <div class="sub-head">camera tilt</div>
         <div class="tilt-mini-wrap" style="position:relative;width:90px;height:90px;margin:0 auto 4px;">
           <span class="tilt-axis top" style="font-size:8px;position:absolute;left:50%;transform:translateX(-50%);top:-14px;font-family:var(--mono);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em">high</span>
-          <img class="tilt-visual-base" src="./asset/tilt-icon.svg" alt="camera tilt guide" style="width:100%;height:100%;display:block;opacity:.6;">
+          <img class="tilt-visual-base" src="../assets/tilt-icon.svg" alt="camera tilt guide" style="width:100%;height:100%;display:block;opacity:.6;">
           <div class="tilt-phone" id="tiltPhonePanel" style="position:absolute;left:50%;top:50%;width:34px;height:58px;border-radius:8px;border:1.5px solid var(--amber);background:linear-gradient(180deg,rgba(251,191,36,.2),rgba(251,191,36,.05));transform:translate(-50%,-50%);clip-path:polygon(var(--top-inset) 0,calc(100% - var(--top-inset)) 0,100% 100%,0 100%);transition:transform .35s ease,clip-path .35s ease;--top-inset:8px;"></div>
           <span class="tilt-axis bottom" style="font-size:8px;position:absolute;left:50%;transform:translateX(-50%);bottom:-14px;font-family:var(--mono);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em">low</span>
         </div>
@@ -645,8 +645,8 @@
         </div>
         <div class="dist-line-wrap">
           <div class="dist-line-track distance" id="distanceLineTrack">
-            <img class="metric-line-svg" src="./asset/camera-distance-line.svg" alt="camera distance line">
-            <img class="metric-camera-marker" id="distanceLineCamera" src="./asset/camera-icon.svg" alt="camera marker">
+            <img class="metric-line-svg" src="../assets/camera-distance-line.svg" alt="camera distance line">
+            <img class="metric-camera-marker" id="distanceLineCamera" src="../assets/camera-icon.svg" alt="camera marker">
           </div>
           <div class="dist-ends"><span>near</span><span>far</span></div>
         </div>
@@ -691,11 +691,11 @@
 <script id="embeddedSampleData" type="application/json">
 {
   "refImg": {
-    "path": "asset/cup-pose.png",
+    "path": "../assets/cup-pose.png",
     "id": "img12345",
     "imgTitle": "하이앵글 컵포즈",
     "imgDesc": "위에서 아래를 극단적으로 내려다보는 하이 앵글(High Angle)로 촬영하여, 얼굴을 가린 컵을 강조하고 신체 비율을 독특하게 왜곡한 구도입니다.",
-    "imgUrl": "./asset/cup-pose.png",
+    "imgUrl": "../assets/cup-pose.png",
     "imgCategory": ["하이앵글", "MZ포즈", "일상", "OOTD", "얼굴가리기"]
   },
   "refData": {
@@ -758,8 +758,8 @@
 </script>
 
 <script>
-const IMAGE_URL = './asset/cup-pose.png';
-const JSON_URL = './data/ai_sample_data.json';
+const IMAGE_URL = '../assets/cup-pose.png';
+const JSON_URL = '../assets/data/ai_sample_data.json';
 const THEME_STORAGE_KEY = 'pose-studio-theme';
 
 function applyTheme(theme) {
