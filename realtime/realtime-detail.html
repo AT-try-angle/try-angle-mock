@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>TryAngle — Live Monitor</title>
-<script src="./data/realtime_img_sample.jsonl.js"></script>
+<script src="../assets/data/realtime_img_sample.jsonl.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
@@ -270,7 +270,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     <div class="phead">레퍼런스</div>
     <div class="rcvs-area">
       <div class="refstage">
-        <img id="refSampleImg" src="./asset/cup-pose.png" alt="">
+        <img id="refSampleImg" src="../assets/cup-pose.png" alt="">
         <canvas id="refCanvas" width="224" height="299"></canvas>
       </div>
       <div class="hudchip" style="top:8px;left:8px">PERSONS&nbsp;<span>1</span><br>KP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>133</span><br>CONF&nbsp;&nbsp;&nbsp;&nbsp;<span>0.89</span></div>
@@ -278,7 +278,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     <div class="rmeta">
       <div class="rmeta-head">
         <div class="rname" style="margin-bottom:0">hot1.jpg — 레퍼런스</div>
-        <a href="./reference-detail.html" class="reflink" title="레퍼런스 상세 보기">상세 &rsaquo;</a>
+        <a href="../content/ref-img-detail-pose.html" class="reflink" title="레퍼런스 상세 보기">상세 &rsaquo;</a>
       </div>
       <div class="rmeta-sep"></div>
       <div class="rgrid">
@@ -484,7 +484,7 @@ function kpGroup(i){
 
 /* ── Build reference pose ── */
 const REF_SOURCE={
-  imageUrl:'./asset/cup-pose.png',
+  imageUrl:'../assets/cup-pose.png',
   imageSize:{width:736,height:981},
   bboxHex:'0f0a071c09f618ce',
   kpCount:133,
@@ -707,7 +707,7 @@ function matchScore(lkps){
 ═══════════════════════════════════════════════ */
 const HIST=[];
 const HMAX=1000;
-const JSONL_PATH='./data/realtime_img_sample.jsonl';
+const JSONL_PATH='../assets/data/realtime_img_sample.jsonl';
 const SIM={
   frame:0,overlay:true,frozen:false,captureEnded:false,
   tilt:2,shoulder:.41,

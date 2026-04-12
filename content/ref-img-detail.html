@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>포즈 레퍼런스 이미지 상세</title>
+  <link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">TryAngle Admin</div>
+      <div class="nav-title">데이터 관리</div>
+      <ul class="nav-list">
+        <li><a href="../realtime/realtime-list.html">실시간 로그 데이터 목록</a></li>
+      </ul>
+      <div class="nav-title">컨텐츠 관리</div>
+      <ul class="nav-list">
+        <li><a class="active" href="./ref-img-gallery.html">포즈 레퍼런스 이미지 목록</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>포즈 레퍼런스 이미지 상세</h1>
+          <p>메타 데이터(title, desc, tag, bookmark) 관리 화면입니다.</p>
+        </div>
+        <div class="actions">
+          <button class="btn" id="openAiData">AI 데이터 상세 팝업</button>
+          <button class="btn primary">저장</button>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="panel" style="padding:12px;">
+          <div class="thumb">Reference Image Preview</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>메타 데이터</h2></div>
+          <div style="padding:12px; display:grid; gap:10px;">
+            <label>Title<input class="input" style="width:100%;" value="하이앵글 컵포즈"></label>
+            <label>Description<textarea class="input" style="width:100%; min-height:90px;">위에서 아래를 내려다본 하이앵글 구성으로 컵을 강조한 샷</textarea></label>
+            <label>Tags<input class="input" style="width:100%;" value="#하이앵글, #MZ포즈, #OOTD"></label>
+            <label>Bookmark
+              <select class="input" style="width:100%;">
+                <option>미등록</option>
+                <option selected>북마크됨</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- iframe 팝업 오버레이 -->
+  <div id="posePopupOverlay" style="
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,0.72); backdrop-filter:blur(4px);
+    align-items:center; justify-content:center;">
+    <div style="
+      position:relative; width:92vw; height:92vh; max-width:1400px;
+      border-radius:12px; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,0.6);">
+      <button id="closePosePopup" style="
+        position:absolute; top:12px; right:12px; z-index:10;
+        background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.15);
+        color:#fff; font-size:13px; padding:6px 14px; border-radius:6px;
+        cursor:pointer; font-family:inherit; backdrop-filter:blur(4px);">✕ 닫기</button>
+      <iframe id="posePopupFrame" src="" style="width:100%;height:100%;border:none;display:block;"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('posePopupOverlay');
+    const frame   = document.getElementById('posePopupFrame');
+
+    document.getElementById('openAiData').addEventListener('click', () => {
+      frame.src = './ref-img-detail-pose.html';
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closePopup() {
+      overlay.style.display = 'none';
+      frame.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closePosePopup').addEventListener('click', closePopup);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closePopup(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+  </script>
+</body>
+</html>
