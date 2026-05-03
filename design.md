@@ -101,6 +101,34 @@ Fallback stack:
 - Use weight and size for emphasis, not extra colors.
 - Keep body text compact to support information density.
 
+## Iconography
+
+### Icon Library
+- Use **Material 3 Icons** as the default icon system across the admin dashboard.
+- Prefer outlined/rounded variants consistently within a single screen (do not mix styles in the same component cluster).
+- Use semantic icon names from Material Symbols to keep intent clear (`search`, `filter_list`, `edit`, `delete`, `check_circle`, `error`, `info`).
+
+### Size & Stroke
+- Default icon size: 20px for dense UI, 24px for standard controls.
+- Small utility icon: 16px (table action cells, inline metadata).
+- Keep optical weight consistent; avoid mixing very thin and very bold icon styles together.
+
+### Color & States
+- Default icon color follows text tokens:
+	- Primary icon on light: `{colors.ink}`
+	- Secondary icon: `{colors.muted}`
+	- On dark surfaces: `{colors.on-dark}`
+- Semantic icon colors:
+	- Success: `{colors.success}`
+	- Error: `{colors.red}`
+	- Info: `{colors.info}`
+- Interactive icon buttons should use visible hover/focus states and must keep keyboard focus ring rules from this guide.
+
+### Usage Rules
+- Pair icon-only actions with accessible labels (`aria-label`) and tooltip text.
+- Do not use icons as the only status signal; always pair with text or badge where ambiguity is possible.
+- Keep navigation icons aligned to a shared grid and baseline to preserve scanability.
+
 ## Layout
 
 ### Spacing System
