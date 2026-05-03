@@ -63,10 +63,6 @@
 
 ## 작업 프로세스
 
-어드민은 데이터 구조가 확정되지 않은 단계이며, 일반적인 UI 패턴을 따르지 않는 화면이 많아 아래 순서로 진행합니다.
-
-프로토타이핑 (은비 · 승혜 · 윤서) → 레이아웃 작업 (승혜 · 윤서) → UI 작업 (윤서)
-
 ### 프로토타이핑
 
 - 생성형 AI(Claude, Gemini)를 활용해 목업 사이트를 빠르게 생성합니다.
@@ -107,6 +103,6 @@
 |---|---|
 | 목업 사이트 | https://try-angle-at.github.io/tryangle_admin_mock/ |
 | 레포지터리 | https://github.com/try-angle-at/tryangle_admin_mock |
-| TryAngle 서비스 | https://example.com |
+| TryAngle 메인 레포지터리 | https://try-angle-at.github.io |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
