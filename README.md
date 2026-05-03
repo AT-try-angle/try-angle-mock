@@ -91,7 +91,7 @@
 | 최승혜 | 프로토타이핑 · 레이아웃 작업 |
 | 윤서 | 프로토타이핑 · 레이아웃 작업 · UI 작업 |
 
-> 전체 팀 구성은 TryAngle 메인 레포지터리(https://try-angle-at.github.io)를 참고하세요.
+> 전체 팀 구성은 TryAngle 메인 레포지터리( [https://github.com/try-angle-at](https://github.com/try-angle-at) )를 참고하세요.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -103,6 +103,6 @@
 |---|---|
 | 목업 사이트 | https://try-angle-at.github.io/tryangle_admin_mock/ |
 | 레포지터리 | https://github.com/try-angle-at/tryangle_admin_mock |
-| TryAngle 메인 레포지터리 | https://try-angle-at.github.io |
+| TryAngle 메인 레포지터리 | https://github.com/try-angle-at |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
