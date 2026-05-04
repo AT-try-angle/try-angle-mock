@@ -159,12 +159,18 @@ a:hover {
 }
 
 .btn.primary:hover {
-  filter: brightness(0.96);
+  background: var(--brand);
+  filter: brightness(0.93);
 }
 
-.btn.success:hover,
+.btn.success:hover {
+  background: var(--success);
+  filter: brightness(0.88);
+}
+
 .btn.danger:hover {
-  filter: brightness(0.92);
+  background: var(--error);
+  filter: brightness(0.88);
 }
 
 .icon-btn {
