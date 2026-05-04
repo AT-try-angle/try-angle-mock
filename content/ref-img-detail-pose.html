@@ -753,10 +753,67 @@
 }
 </script>
 
+<script src="../assets/data/reference.json.js"></script>
+<script src="../assets/data/ai_data/index.js"></script>
 <script>
-const IMAGE_URL = 'https://pub-a309ad8a0a6e4a629ad982d710e35276.r2.dev/legacy/ref/fullshot_1.jpg';
-const JSON_URL = '../assets/data/ai_sample_data.json';
+const IMAGE_BASE_URL = 'https://pub-a309ad8a0a6e4a629ad982d710e35276.r2.dev/legacy/ref/';
+const DEFAULT_IMAGE_FILE = 'fullshot_1.jpg';
+const DEFAULT_JSON_URL = '../assets/data/ai_sample_data.json';
 const THEME_STORAGE_KEY = 'pose-studio-theme';
+
+function resolveQueryParams() {
+  let img = DEFAULT_IMAGE_FILE;
+  let aidoc = '';
+  try {
+    const p = new URLSearchParams(window.location.search);
+    const rawImg = String(p.get('img') || '').trim();
+    const rawAi = String(p.get('aidoc') || '').trim();
+    if (/^[a-zA-Z0-9._-]+\.(jpg|jpeg|png|webp)$/i.test(rawImg)) img = rawImg;
+    if (/^[a-zA-Z0-9._-]+\.json$/i.test(rawAi)) aidoc = rawAi;
+  } catch (_) {}
+  return { imageFile: img, aiDocId: aidoc };
+}
+
+function resolveAiDocIdFromReference(imageFile) {
+  const refs = Array.isArray(window.__REFERENCE_DATA__?.references) ? window.__REFERENCE_DATA__.references : [];
+  const found = refs.find((ref) => String(ref?.fileName || '') === String(imageFile || ''));
+  const aiDocId = String(found?.aiDocId || '').trim();
+  return /^[a-zA-Z0-9._-]+\.json$/i.test(aiDocId) ? aiDocId : '';
+}
+
+function resolveReferenceByLink(imageFile, aiDocId) {
+  const refs = Array.isArray(window.__REFERENCE_DATA__?.references) ? window.__REFERENCE_DATA__.references : [];
+
+  if (aiDocId) {
+    const byAiDoc = refs.find((ref) => String(ref?.aiDocId || '').trim() === aiDocId);
+    if (byAiDoc) return byAiDoc;
+
+    const stem = aiDocId.replace(/_ai\.json$/i, '').toLowerCase();
+    const byStem = refs.find((ref) => String(ref?.fileName || '').toLowerCase().startsWith(`${stem}.`));
+    if (byStem) return byStem;
+  }
+
+  if (imageFile) {
+    const byFileName = refs.find((ref) => String(ref?.fileName || '') === imageFile);
+    if (byFileName) return byFileName;
+  }
+
+  return null;
+}
+
+const params = resolveQueryParams();
+const RESOLVED_AI_DOC_ID = params.aiDocId || resolveAiDocIdFromReference(params.imageFile);
+const RESOLVED_REFERENCE = resolveReferenceByLink(params.imageFile, RESOLVED_AI_DOC_ID);
+const RESOLVED_IMAGE_FILE = String(RESOLVED_REFERENCE?.fileName || params.imageFile || DEFAULT_IMAGE_FILE);
+const IMAGE_URL = String(RESOLVED_REFERENCE?.url || `${IMAGE_BASE_URL}${RESOLVED_IMAGE_FILE}`);
+const JSON_URL = RESOLVED_AI_DOC_ID ? `../assets/data/ai_data/${RESOLVED_AI_DOC_ID}` : DEFAULT_JSON_URL;
+
+function getBundledAiData() {
+  const docs = window.__AI_DATA_DOCS__ || {};
+  if (!RESOLVED_AI_DOC_ID) return null;
+  const doc = docs[RESOLVED_AI_DOC_ID];
+  return doc && typeof doc === 'object' ? doc : null;
+}
 
 function applyTheme(theme) {
   const normalized = theme === 'light' ? 'light' : 'dark';
@@ -925,7 +982,7 @@ function updateImageMeta(data = {}) {
   document.getElementById('imgTitleText').textContent = title;
   document.getElementById('imgDescText').textContent = desc;
   document.getElementById('imgUrlText').textContent = url;
-  document.getElementById('breadcrumbName').textContent = url.split('/').pop();
+  document.getElementById('breadcrumbName').textContent = RESOLVED_IMAGE_FILE || url.split('/').pop();
 
   const tagWrap = document.getElementById('imgTagsText');
   tagWrap.innerHTML = '';
@@ -984,14 +1041,30 @@ function updateCameraContext(ref = {}) {
 }
 
 async function loadSampleData() {
+  const bundled = getBundledAiData();
+
+  if (window.location.protocol === 'file:') {
+    if (bundled) return bundled;
+    const embedded = document.getElementById('embeddedSampleData');
+    if (embedded?.textContent?.trim()) {
+      console.warn(`file:// 환경: 번들 AI 문서 없음(${RESOLVED_AI_DOC_ID || 'none'}), 인라인 데이터 사용`);
+      return JSON.parse(embedded.textContent);
+    }
+    throw new Error('file:// 환경에서 로드 가능한 AI 데이터가 없습니다.');
+  }
+
   try {
     const r = await fetch(JSON_URL);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return await r.json();
   } catch (e) {
+    if (bundled) {
+      console.warn(`외부 JSON 로딩 실패(${JSON_URL}), 번들 데이터 사용`, e);
+      return bundled;
+    }
     const el = document.getElementById('embeddedSampleData');
     if (!el?.textContent?.trim()) throw e;
-    console.warn('외부 JSON 로딩 실패, 인라인 데이터 사용', e);
+    console.warn(`외부 JSON 로딩 실패(${JSON_URL}), 인라인 데이터 사용`, e);
     return JSON.parse(el.textContent);
   }
 }
@@ -1011,11 +1084,11 @@ function normalizeSampleData(raw = {}) {
   return {
     imgTitle: ri.imgTitle || raw.imgTitle || '레퍼런스 이미지',
     imgDesc: ri.imgDesc || raw.imgDesc || '레퍼런스 분석 결과',
-    imgUrl: ri.imgUrl || ri.path || raw.imgUrl || IMAGE_URL,
+    imgUrl: IMAGE_URL || ri.imgUrl || ri.path || raw.imgUrl,
     imgCategory: Array.isArray(ri.imgCategory) ? ri.imgCategory : (Array.isArray(raw.imgCategory) ? raw.imgCategory : []),
     refAnalysisOnly: {
       refInput: {
-        imagePath: ri.imgUrl || ri.path || raw.imgUrl || IMAGE_URL,
+        imagePath: IMAGE_URL || ri.imgUrl || ri.path || raw.imgUrl,
         imageSize: {
           width: Number(size.w) || 736,
           height: Number(size.h) || 981

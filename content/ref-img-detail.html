@@ -191,6 +191,7 @@
       title: '',
       description: '',
       tagsText: '',
+      aiDocId: '',
       bookmarkCount: 0,
       useCnt: 0,
       expWeight: 0,
@@ -259,6 +260,7 @@
       const priorityInput = document.getElementById('priorityInput');
       const fileSizeInput = document.getElementById('fileSizeInput');
       const uploadedAtInput = document.getElementById('uploadedAtInput');
+      const aiJsonFileName = document.getElementById('aiJsonFileName');
 
       if (titleInput) titleInput.value = selectedMeta.title || selectedImageFile;
       if (descInput) descInput.value = selectedMeta.description || '';
@@ -271,15 +273,25 @@
       if (priorityInput) priorityInput.value = selectedMeta.priority ?? 0;
       if (fileSizeInput) fileSizeInput.value = selectedMeta.size || '-';
       if (uploadedAtInput) uploadedAtInput.value = selectedMeta.uploadedAt || '-';
+      if (aiJsonFileName) {
+        aiJsonFileName.textContent = selectedMeta.aiDocId
+          ? `연결된 AI 문서: ${selectedMeta.aiDocId}`
+          : '연결된 AI 문서 없음';
+      }
+
+      return selectedMeta;
     }
 
-    initDetail();
+    let selectedMetaCache = DEFAULT_REFERENCE_META;
+    initDetail().then((meta) => { selectedMetaCache = meta || DEFAULT_REFERENCE_META; });
 
     const overlay = document.getElementById('posePopupOverlay');
     const frame = document.getElementById('posePopupFrame');
 
     document.getElementById('openAiDataBottom').addEventListener('click', () => {
-      frame.src = `./ref-img-detail-pose.html?img=${encodeURIComponent(selectedImageFile)}`;
+      const aiDocId = String(selectedMetaCache?.aiDocId || '').trim();
+      const aidocQuery = aiDocId ? `&aidoc=${encodeURIComponent(aiDocId)}` : '';
+      frame.src = `./ref-img-detail-pose.html?img=${encodeURIComponent(selectedImageFile)}${aidocQuery}`;
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     });
