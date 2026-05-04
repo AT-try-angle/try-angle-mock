@@ -43,19 +43,19 @@
       <div class="grid">
         <div class="card">
           <div class="label">오늘 수집 건수</div>
-          <div class="value">124</div>
+          <div class="value" id="sumTodayCollected">-</div>
         </div>
         <div class="card">
           <div class="label">실시간 처리율</div>
-          <div class="value">98.4%</div>
+          <div class="value" id="sumRealtimeProcessRate">-</div>
         </div>
         <div class="card">
           <div class="label">오류 의심 건수</div>
-          <div class="value">7</div>
+          <div class="value" id="sumSuspectedErrors">-</div>
         </div>
         <div class="card">
           <div class="label">평균 Confidence</div>
-          <div class="value">0.91</div>
+          <div class="value" id="sumAverageConfidence">-</div>
         </div>
       </div>
 
@@ -93,75 +93,103 @@
               <th>데이터 내보내기</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><a href="./realtime-detail.html?log=../assets/data/sendlog_260504_223012.jsonl">PD-241129-1031</a></td>
-              <td>user_43017</td>
-              <td>iPhone15Pro</td>
-              <td>fullshot_1.jpg</td>
-              <td>0.92</td>
-              <td>2026년 04월 12일 11시 02분</td>
-              <td><span class="badge info">촬영중</span></td>
-              <td><a class="btn" href="./realtime-detail.html?log=../assets/data/sendlog_260504_223012.jsonl">상세보기</a></td>
-              <td><button class="btn" type="button">내보내기</button></td>
-            </tr>
-            <tr>
-              <td><a href="./realtime-detail.html?log=../assets/data/sendlog_260504_223054.jsonl">PD-241129-1030</a></td>
-              <td>user_88902</td>
-              <td>GalaxyS25</td>
-              <td>hot2.jpg</td>
-              <td>0.89</td>
-              <td>2026년 04월 12일 11시 01분</td>
-              <td><span class="badge info">촬영중</span></td>
-              <td><a class="btn" href="./realtime-detail.html?log=../assets/data/sendlog_260504_223054.jsonl">상세보기</a></td>
-              <td><button class="btn" type="button">내보내기</button></td>
-            </tr>
-            <tr>
-              <td><a href="./realtime-detail.html?log=../assets/data/sendlog_260504_223202.jsonl">PD-241129-1029</a></td>
-              <td>user_12048</td>
-              <td>iPhone14</td>
-              <td>winter1.jpg</td>
-              <td>0.95</td>
-              <td>2026년 04월 12일 11시 01분</td>
-              <td><span class="badge success">완료</span></td>
-              <td><a class="btn" href="./realtime-detail.html?log=../assets/data/sendlog_260504_223202.jsonl">상세보기</a></td>
-              <td><button class="btn" type="button">내보내기</button></td>
-            </tr>
-            <tr>
-              <td><a href="./realtime-detail.html">PD-241129-1028</a></td>
-              <td>user_77194</td>
-              <td>Pixel9Pro</td>
-              <td>landmark4.jpg</td>
-              <td>0.62</td>
-              <td>2026년 04월 12일 11시 01분</td>
-              <td><span class="badge success">완료</span></td>
-              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
-              <td><button class="btn" type="button">내보내기</button></td>
-            </tr>
-            <tr>
-              <td><a href="./realtime-detail.html">PD-241129-1027</a></td>
-              <td>user_04311</td>
-              <td>iPhone15</td>
-              <td>winter8.jpg</td>
-              <td>0.94</td>
-              <td>2026년 04월 12일 11시 00분</td>
-              <td><span class="badge success">완료</span></td>
-              <td><a class="btn" href="./realtime-detail.html">상세보기</a></td>
-              <td><button class="btn" type="button">내보내기</button></td>
-            </tr>
-          </tbody>
+          <tbody id="realtimeTbody"></tbody>
         </table>
       </div>
     </main>
   </div>
 
+  <script src="../assets/data/system.json.js"></script>
   <script>
     (function () {
+      const SYSTEM_JSON_PATH = '../assets/data/system.json';
       const searchInput = document.getElementById('realtimeSearchInput');
       const statusFilter = document.getElementById('realtimeStatusFilter');
       const resetBtn = document.getElementById('realtimeResetBtn');
       const searchBtn = document.getElementById('realtimeSearchBtn');
-      const tbody = document.querySelector('tbody');
+      const tbody = document.getElementById('realtimeTbody');
+
+      function esc(v) {
+        return String(v ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function detailHref(logPath) {
+        const p = String(logPath || '').trim();
+        return p ? `./realtime-detail.html?log=${encodeURIComponent(p)}` : './realtime-detail.html';
+      }
+
+      function statusBadge(status) {
+        const s = String(status || '').trim();
+        if (s === '촬영중') return '<span class="badge info">촬영중</span>';
+        if (s === '완료') return '<span class="badge success">완료</span>';
+        return `<span class="badge">${esc(s || '-')}</span>`;
+      }
+
+      function renderSummary(summary) {
+        const s = summary || {};
+        const todayCollected = document.getElementById('sumTodayCollected');
+        const realtimeProcessRate = document.getElementById('sumRealtimeProcessRate');
+        const suspectedErrors = document.getElementById('sumSuspectedErrors');
+        const averageConfidence = document.getElementById('sumAverageConfidence');
+        if (todayCollected) todayCollected.textContent = String(s.todayCollected ?? '-');
+        if (realtimeProcessRate) realtimeProcessRate.textContent = String(s.realtimeProcessRate ?? '-');
+        if (suspectedErrors) suspectedErrors.textContent = String(s.suspectedErrors ?? '-');
+        if (averageConfidence) averageConfidence.textContent = String(s.averageConfidence ?? '-');
+      }
+
+      function renderLogs(logs) {
+        if (!tbody) return;
+        const rows = Array.isArray(logs) ? logs : [];
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);">표시할 실시간 로그가 없습니다.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = rows.map((row) => {
+          const href = detailHref(row?.logPath);
+          const status = String(row?.status || '').trim();
+          return `
+            <tr data-status="${esc(status)}">
+              <td><a href="${href}">${esc(row?.dataId || '-')}</a></td>
+              <td>${esc(row?.userId || '-')}</td>
+              <td>${esc(row?.device || '-')}</td>
+              <td>${esc(row?.imageReference || '-')}</td>
+              <td>${esc(row?.confidence ?? '-')}</td>
+              <td>${esc(row?.createdAt || '-')}</td>
+              <td>${statusBadge(status)}</td>
+              <td><a class="btn" href="${href}">상세보기</a></td>
+              <td><button class="btn" type="button">내보내기</button></td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      async function loadSystemData() {
+        const fallback = window.__SYSTEM_DATA__;
+
+        if (window.location.protocol === 'file:') {
+          renderSummary(fallback?.summary || {});
+          renderLogs(fallback?.realtimeLogs || []);
+          return;
+        }
+
+        try {
+          const res = await fetch(SYSTEM_JSON_PATH, { cache: 'no-store' });
+          if (!res.ok) throw new Error(`Failed to load system.json: ${res.status}`);
+          const json = await res.json();
+          renderSummary(json?.summary || {});
+          renderLogs(json?.realtimeLogs || []);
+        } catch (err) {
+          console.warn('system.json 로드 실패', err);
+          renderSummary(fallback?.summary || {});
+          renderLogs(fallback?.realtimeLogs || []);
+        }
+      }
 
       function filterRows() {
         const q = (searchInput?.value || '').trim().toLowerCase();
@@ -169,13 +197,14 @@
         if (!tbody) return;
         Array.from(tbody.querySelectorAll('tr')).forEach((row) => {
           const text = row.textContent.toLowerCase();
-          const statusCell = row.querySelector('td:nth-child(7)');
-          const rowStatus = statusCell ? statusCell.textContent.trim() : '';
+          const rowStatus = row.getAttribute('data-status') || '';
           const matchesQuery = !q || text.includes(q);
           const matchesStatus = status === '전체 상태' || rowStatus === status;
           row.style.display = matchesQuery && matchesStatus ? '' : 'none';
         });
       }
+
+      loadSystemData();
 
       if (searchInput) {
         searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') filterRows(); });
