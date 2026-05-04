@@ -80,8 +80,8 @@
               <input class="input full" id="nameInput">
             </div>
             <div class="detail-field">
-              <label class="detail-label" for="descInput">상품 설명</label>
-              <textarea class="input full" id="descInput" rows="3" style="resize:none;"></textarea>
+              <label class="detail-label" for="brandInput">브랜드</label>
+              <input class="input full" id="brandInput">
             </div>
             <div class="detail-field">
               <label class="detail-label" for="priceInput">가격</label>
@@ -133,7 +133,7 @@
     const DEFAULT_PROD_FILE = '1623540_3_big.webp';
     const DEFAULT_PRODUCT_META = {
       name: '',
-      desc: '',
+      brand: '',
       price: 0,
       status: '활성',
       fileName: '',
@@ -181,7 +181,7 @@
       const prodData = productMap[selectedFile] || DEFAULT_PRODUCT_META;
 
       const nameInput = document.getElementById('nameInput');
-      const descInput = document.getElementById('descInput');
+      const brandInput = document.getElementById('brandInput');
       const priceInput = document.getElementById('priceInput');
       const pStatInput = document.getElementById('pStatInput');
       const thumbPreview = document.getElementById('thumbPreview');
@@ -189,7 +189,7 @@
       const uploadedAtInput = document.getElementById('uploadedAtInput');
 
       if (nameInput) nameInput.value = prodData.name || selectedFile;
-      if (descInput) descInput.value = prodData.desc || '';
+      if (brandInput) brandInput.value = prodData.brand || '';
       if (priceInput) priceInput.value = prodData.price ?? 0;
 
       if (pStatInput) {
