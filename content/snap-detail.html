@@ -134,53 +134,21 @@
               <label class="detail-label" for="fileNameInput">파일명</label>
               <input class="input full" id="fileNameInput" readonly>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-              <div class="detail-field">
-                <label class="detail-label" for="idInput">id</label>
-                <input class="input full" id="idInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="sIdInput">sId (session)</label>
-                <input class="input full" id="sIdInput" readonly>
-              </div>
+            <div class="detail-field">
+              <label class="detail-label" for="userNameInput">유저 이름</label>
+              <input class="input full" id="userNameInput" readonly>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-              <div class="detail-field">
-                <label class="detail-label" for="userIdInput">userId</label>
-                <input class="input full" id="userIdInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="prodIdInput">prodId</label>
-                <input class="input full" id="prodIdInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="imgIdInput">imgId</label>
-                <input class="input full" id="imgIdInput" readonly>
-              </div>
+            <div class="detail-field">
+              <label class="detail-label" for="sizeInput">파일 크기</label>
+              <input class="input full" id="sizeInput" readonly>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-              <div class="detail-field">
-                <label class="detail-label" for="mimeInput">MIME</label>
-                <input class="input full" id="mimeInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="storageClassInput">Storage Class</label>
-                <input class="input full" id="storageClassInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="sizeInput">파일 크기</label>
-                <input class="input full" id="sizeInput" readonly>
-              </div>
+            <div class="detail-field">
+              <label class="detail-label" for="uploadedAtInput">업로드 시간</label>
+              <input class="input full" id="uploadedAtInput" readonly>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-              <div class="detail-field">
-                <label class="detail-label" for="uploadedAtInput">업로드 시간</label>
-                <input class="input full" id="uploadedAtInput" readonly>
-              </div>
-              <div class="detail-field">
-                <label class="detail-label" for="viewCntInput">조회수</label>
-                <input class="input full" id="viewCntInput" readonly>
-              </div>
+            <div class="detail-field">
+              <label class="detail-label" for="viewCntInput">조회수</label>
+              <input class="input full" id="viewCntInput" readonly>
             </div>
             <div class="detail-field">
               <label class="detail-label" for="urlInput">snapUrl</label>
@@ -257,6 +225,12 @@
       if (el) el.value = String(value ?? '-');
     }
 
+    function toUserName(userId) {
+      const id = String(userId ?? '').trim();
+      if (!id) return '-';
+      return `user_${id}`;
+    }
+
     function renderUsedReference(data, referenceMap) {
       const wrap = document.getElementById('usedReferenceWrap');
       if (!wrap) return;
@@ -319,13 +293,7 @@
       }
 
       setValue('fileNameInput', data.fileName || '-');
-      setValue('idInput', data.id);
-      setValue('sIdInput', data.sId);
-      setValue('userIdInput', data.userId);
-      setValue('prodIdInput', data.prodId);
-      setValue('imgIdInput', data.imgId);
-      setValue('mimeInput', data.mime || '-');
-      setValue('storageClassInput', data.storageClass || '-');
+      setValue('userNameInput', toUserName(data.userId));
       setValue('sizeInput', data.size || '-');
       setValue('uploadedAtInput', data.uploadedAt || '-');
       setValue('viewCntInput', data.viewCnt ?? 0);
