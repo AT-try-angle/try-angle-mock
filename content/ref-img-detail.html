@@ -238,6 +238,11 @@
     async function initDetail() {
       const metaMap = await loadReferenceMetaMap();
       const selectedMeta = metaMap[selectedImageFile] || DEFAULT_REFERENCE_META;
+      const titleRefName = document.getElementById('titleRefName');
+
+      if (titleRefName) {
+        titleRefName.textContent = selectedImageFile || '이미지 상세';
+      }
 
       const previewImage = document.getElementById('detailPreviewImage');
       if (previewImage) {

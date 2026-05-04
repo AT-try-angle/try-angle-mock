@@ -315,6 +315,11 @@
       const thumbPreview = document.getElementById('thumbPreview');
       const fileSizeInput = document.getElementById('fileSizeInput');
       const uploadedAtInput = document.getElementById('uploadedAtInput');
+      const titleProdName = document.getElementById('titleProdName');
+
+      if (titleProdName) {
+        titleProdName.textContent = prodData.name || selectedFile || '상품 상세';
+      }
 
       if (nameInput) nameInput.value = prodData.name || selectedFile;
       if (brandInput) brandInput.value = prodData.brand || '';
