@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>TryAngle Admin Dashboard</title>
   <link rel="stylesheet" href="./assets/admin.css">
+  <script src="./assets/data/ai_data/index.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0">
@@ -75,7 +76,7 @@
               <span class="delta info">Active</span>
             </div>
             <div class="label">활성 레퍼런스 이미지 (tb_img)</div>
-            <div class="value">342개</div>
+            <div class="value" id="refImgCount">342개</div>
           </div>
           <!-- DB tb_snap 기반 지표 -->
           <div class="card">
@@ -86,6 +87,24 @@
             <div class="label">신규 유저 스냅 (tb_snap)</div>
             <div class="value">48건</div>
           </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>레퍼런스 이미지 목록 (AI Docs)</h2>
+          </div>
+          <table id="refImgTable">
+            <thead>
+              <tr>
+                <th>파일명</th>
+                <th>이미지 ID</th>
+                <th style="text-align:center;">숏 타입</th>
+                <th style="text-align:center;">구도 타입</th>
+                <th style="text-align:right;">헤드룸 상태</th>
+              </tr>
+            </thead>
+            <tbody id="refImgTableBody"></tbody>
+          </table>
         </div>
 
         <div class="panel">
@@ -130,5 +149,42 @@
       </section>
     </main>
   </div>
+  <script>
+    (function () {
+      var docs = window.__AI_DATA_DOCS__;
+      if (!docs) return;
+
+      var keys = Object.keys(docs);
+
+      // 카드: 활성 레퍼런스 이미지 수
+      var countEl = document.getElementById('refImgCount');
+      if (countEl) countEl.textContent = keys.length + '개';
+
+      // 테이블: 레퍼런스 이미지 목록
+      var tbody = document.getElementById('refImgTableBody');
+      if (!tbody) return;
+
+      var headroomLabel = { '과다': 'error', '적정': 'success', '부족': 'info' };
+
+      tbody.innerHTML = keys.map(function (key) {
+        var entry = docs[key];
+        var refImg = entry.refImg || {};
+        var refData = entry.refData || {};
+        var framing = refData.framing || {};
+        var id = String(refImg.id || '').substring(0, 8);
+        var shotType = refData.shotType || '-';
+        var compositionType = refData.compositionType || '-';
+        var headroomStatus = framing.headroomStatus || '-';
+        var badgeClass = headroomLabel[headroomStatus] || '';
+        return '<tr>'
+          + '<td>' + key + '</td>'
+          + '<td style="font-family:monospace;font-size:12px;color:var(--muted);">' + id + '…</td>'
+          + '<td style="text-align:center;"><span class="badge badge-row">' + shotType + '</span></td>'
+          + '<td style="text-align:center;color:var(--muted);font-size:12px;">' + compositionType + '</td>'
+          + '<td style="text-align:right;"><span class="badge ' + badgeClass + ' badge-row">' + headroomStatus + '</span></td>'
+          + '</tr>';
+      }).join('');
+    })();
+  </script>
 </body>
 </html>
