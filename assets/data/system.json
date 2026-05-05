@@ -30,11 +30,11 @@
       "dataId": "PD-241129-1029",
       "userId": "user_12048",
       "device": "iPhone14",
-      "imageReference": "waistshot_2.jpg",
+      "imageReference": "kneeshot_2.jpg",
       "confidence": 0.95,
       "createdAt": "2026년 04월 12일 11시 01분",
       "status": "완료",
-      "logPath": "../assets/data/ai_data/waistshot_2_sys.jsonl"
+      "logPath": "../assets/data/ai_data/kneeshot_2_sys.jsonl"
     },
     {
       "dataId": "PD-241129-1028",

@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>TryAngle — Live Monitor</title>
-<script src="../assets/data/realtime_img_sample.jsonl.js"></script>
+<script src="../assets/data/system.json.js"></script>
+<script src="../assets/data/ai_data/index.js"></script>
+<script>
+(function(){
+  var SAFE_RE=/^\.\.\/assets\/data\/(?:[a-zA-Z0-9_-]+\/)?[a-zA-Z0-9._-]+\.jsonl$/;
+  var p=new URLSearchParams(window.location.search).get('log');
+  var src=(p&&SAFE_RE.test(p.trim()))?(p.trim()+'.js'):'../assets/data/realtime_img_sample.jsonl.js';
+  document.write('<scr'+'ipt src="'+src+'"></scr'+'ipt>');
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -263,8 +272,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     </a>
     <div class="topbar-divider"></div>
     <div class="breadcrumb-wrap">
-      <span class="breadcrumb">ref /</span>
-      <span class="breadcrumb-name">fullshot_1.jpg</span>
+      <span class="breadcrumb" id="breadcrumbDataId">—</span>
+      <span class="breadcrumb" style="opacity:.4"> / </span>
+      <span class="breadcrumb-name" id="breadcrumbRef">—</span>
     </div>
   </div>
   <div class="topbar-right">
@@ -286,17 +296,17 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     </div>
     <div class="rmeta">
       <div class="rmeta-head">
-        <div class="rname" style="margin-bottom:0">fullshot_1.jpg — 레퍼런스</div>
+        <div class="rname" style="margin-bottom:0" id="refName">— — 레퍼런스</div>
         <a href="../content/ref-img-detail-pose.html" class="reflink" title="레퍼런스 상세 보기">상세 &rsaquo;</a>
       </div>
       <div class="rmeta-sep"></div>
       <div class="rgrid">
-        <div class="rrow"><span class="k">앵글</span><span class="v">EYE LEVEL</span></div>
-        <div class="rrow"><span class="k">틸트</span><span class="v">+2°</span></div>
-        <div class="rrow"><span class="k">거리</span><span class="v">MEDIUM</span></div>
-        <div class="rrow"><span class="k">shot</span><span class="v">HALF BODY</span></div>
-        <div class="rrow"><span class="k">shldr</span><span class="v">0.41</span></div>
-        <div class="rrow"><span class="k">focal</span><span class="v">28mm eq</span></div>
+        <div class="rrow"><span class="k">앵글</span><span class="v" id="refAngle">EYE LEVEL</span></div>
+        <div class="rrow"><span class="k">틸트</span><span class="v" id="refTilt">+2°</span></div>
+        <div class="rrow"><span class="k">거리</span><span class="v" id="refDist">MEDIUM</span></div>
+        <div class="rrow"><span class="k">shot</span><span class="v" id="refShot">HALF BODY</span></div>
+        <div class="rrow"><span class="k">shldr</span><span class="v" id="refShldr">0.41</span></div>
+        <div class="rrow"><span class="k">focal</span><span class="v" id="refFocal">28mm eq</span></div>
       </div>
     </div>
   </div>
@@ -364,19 +374,25 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
   <div class="rpanel">
     <div class="rsec">
       <div class="rsh">촬영 메타정보</div>
+      <div class="drow"><span class="dk">data ID</span><span class="dv" id="metaDataId">—</span></div>
+      <div class="drow"><span class="dk">user ID</span><span class="dv" id="metaUserId">—</span></div>
+      <div class="drow"><span class="dk">status</span><span class="dv" id="metaStatus">—</span></div>
       <div class="drow"><span class="dk">device</span><span class="dv" id="metaDevice">—</span></div>
       <div class="drow"><span class="dk">capture time</span><span class="dv" id="metaCaptureTime">— | —</span></div>
       <div class="drow"><span class="dk">aspect ratio</span><span class="dv" id="metaAspect">—</span></div>
+      <div class="drow"><span class="dk">ref image</span><span class="dv" id="metaRefImage">—</span></div>
+      <div class="drow"><span class="dk">confidence</span><span class="dv" id="metaConf">—</span></div>
+      <div class="drow"><span class="dk">created at</span><span class="dv" id="metaCreatedAt" style="font-size:9px">—</span></div>
     </div>
 
     <div class="detailgrid">
       <div class="rsec">
         <div class="rsh">REF 목표값</div>
-        <div class="drow"><span class="dk">camera angle</span><span class="dv r">EYE LEVEL</span></div>
-        <div class="drow"><span class="dk">tilt</span><span class="dv r">+2°</span></div>
-        <div class="drow"><span class="dk">distance</span><span class="dv r">MEDIUM</span></div>
-        <div class="drow"><span class="dk">shot type</span><span class="dv r">HALF BODY</span></div>
-        <div class="drow"><span class="dk">shoulder ratio</span><span class="dv r">0.41</span></div>
+        <div class="drow"><span class="dk">camera angle</span><span class="dv r" id="rAngle">EYE LEVEL</span></div>
+        <div class="drow"><span class="dk">tilt</span><span class="dv r" id="rTilt">+2°</span></div>
+        <div class="drow"><span class="dk">distance</span><span class="dv r" id="rDist">MEDIUM</span></div>
+        <div class="drow"><span class="dk">shot type</span><span class="dv r" id="rShot">HALF BODY</span></div>
+        <div class="drow"><span class="dk">shoulder ratio</span><span class="dv r" id="rShldr">0.41</span></div>
       </div>
 
       <div class="rsec">
@@ -663,6 +679,68 @@ function drawRef(){
   drawSkel(rX,REF,cw,ch,{alpha:.92,thin:false});
 }
 
+/* ── Load AI reference data for current record ── */
+const CAM_ANGLE_LABELS={
+  eyeLevel:'EYE LEVEL',dutchAngle:'DUTCH',birdsEye:"BIRD'S EYE",
+  highAngle:'HIGH',lowAngle:'LOW',wormEye:"WORM'S EYE"
+};
+const SHOT_TYPE_LABELS={
+  mediumFullShot:'HALF BODY',fullShot:'FULL BODY',halfShot:'HALF BODY',
+  extremeCloseUp:'CLOSE UP',closeUp:'CLOSE UP',mediumShot:'MEDIUM',
+  longShot:'LONG',kneeShot:'KNEE'
+};
+function loadAiRefData(){
+  const docs=window.__AI_DATA_DOCS__;
+  if(!docs) return;
+  const ref=SYS_RECORD.imageReference||'';
+  const stem=ref.replace(/\.[^.]+$/,'');
+  // exact stem match (e.g. 'fullshot_2' → 'fullshot_2_ai.json')
+  let key=Object.keys(docs).find(k=>k.replace(/_ai\.json$/,'')===stem);
+  // prefix fallback (e.g. 'kneeshot_2' → 'kneeshot_1_ai.json')
+  if(!key){
+    const prefix=stem.replace(/_\d+$/,'');
+    key=Object.keys(docs).find(k=>k.replace(/_ai\.json$/,'').startsWith(prefix));
+  }
+  if(!key) return;
+  const doc=docs[key];
+  const rd=doc.refData;
+  const ri=doc.refImg;
+  // Update REF_SOURCE and rebuild REF keypoints
+  REF_SOURCE.imageUrl=ri.path;
+  REF_SOURCE.imageSize={width:rd.size.w,height:rd.size.h};
+  REF_SOURCE.bboxHex=rd.bbox;
+  REF_SOURCE.kpHex=rd.keypoints;
+  REF_SOURCE.kpCount=133;
+  const newRef=buildRefFromSource()||buildFallbackRef();
+  REF=newRef;
+  // Update reference image (CDN)
+  const img=document.getElementById('refSampleImg');
+  if(img){
+    img.onerror=()=>{img.onerror=null;img.src='../assets/cup-pose.png';};
+    img.src=ri.path;
+  }
+  // Derived display values
+  const camAngle=CAM_ANGLE_LABELS[rd.framing&&rd.framing.camAngle]||(rd.framing&&rd.framing.camAngle?rd.framing.camAngle.toUpperCase():'EYE LEVEL');
+  const tiltDeg=(rd.geoCalib&&rd.geoCalib.rollDegrees)||0;
+  const tiltStr=(tiltDeg>=0?'+':'')+tiltDeg.toFixed(1)+'°';
+  const dist=(rd.estimatedDistance)||0;
+  const distStr=dist<1?'CLOSE':dist<3?'MEDIUM':'FAR';
+  const shotStr=SHOT_TYPE_LABELS[rd.shotType]||(rd.shotType?rd.shotType.toUpperCase():'HALF BODY');
+  const shldrStr=((rd.shoulderRatio)||0).toFixed(3);
+  const focalMM=(rd.focalLengthInfo&&rd.focalLengthInfo.focalLengthMM)||(rd.geoCalib&&Math.round(rd.geoCalib.focalLengthMM))||0;
+  const focalStr=focalMM+'mm eq';
+  // Update left panel rgrid
+  const setEl=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  setEl('refAngle',camAngle);setEl('refTilt',tiltStr);setEl('refDist',distStr);
+  setEl('refShot',shotStr);setEl('refShldr',shldrStr);setEl('refFocal',focalStr);
+  // Update right panel REF target values
+  setEl('rAngle',camAngle);setEl('rTilt',tiltStr);setEl('rDist',distStr);
+  setEl('rShot',shotStr);setEl('rShldr',shldrStr);
+  // Update SIM defaults
+  SIM.tilt=Math.abs(tiltDeg);
+  SIM.shoulder=rd.shoulderRatio||0.41;
+}
+
 /* ── Live background ── */
 function drawLiveBg(fn){
   const cw=lCvs.width,ch=lCvs.height;
@@ -724,13 +802,35 @@ function resolveJsonlPath(){
     const t=p.trim();
     if(!t) return DEFAULT_JSONL_PATH;
     // Only allow local .jsonl files under ../assets/data
-    if(!/^\.\.\/assets\/data\/[a-zA-Z0-9._-]+\.jsonl$/.test(t)) return DEFAULT_JSONL_PATH;
+    if(!/^\.\.\/assets\/data\/(?:[a-zA-Z0-9_-]+\/)?[a-zA-Z0-9._-]+\.jsonl$/.test(t)) return DEFAULT_JSONL_PATH;
     return t;
   }catch(_){
     return DEFAULT_JSONL_PATH;
   }
 }
 const JSONL_PATH=resolveJsonlPath();
+
+/* ── System record from URL params ── */
+function getRecordFromUrl(){
+  try{
+    const p=new URLSearchParams(window.location.search);
+    // Also look up from __SYSTEM_DATA__ by logPath for any missing fields
+    const logVal=p.get('log')||'';
+    const sys=window.__SYSTEM_DATA__?.realtimeLogs||[];
+    const matched=sys.find(r=>String(r.logPath||'')===(logVal));
+    return {
+      dataId:p.get('dataId')||matched?.dataId||'',
+      userId:p.get('userId')||matched?.userId||'',
+      device:p.get('device')||matched?.device||'',
+      imageReference:p.get('ref')||matched?.imageReference||'',
+      confidence:p.get('conf')!=null?p.get('conf'):(matched?.confidence!=null?String(matched.confidence):''),
+      createdAt:p.get('createdAt')||matched?.createdAt||'',
+      status:p.get('status')||matched?.status||'',
+    };
+  }catch(_){return {};}
+}
+const SYS_RECORD=getRecordFromUrl();
+
 const SIM={
   frame:0,overlay:true,frozen:false,captureEnded:false,
   tilt:2,shoulder:.41,
@@ -744,7 +844,7 @@ let feedFrames=[];
 let feedLoaded=false;
 const ASPECT_SWITCH_FRAMES=90;
 const REF_ASPECT=aspectText(REF_SOURCE.imageSize.width,REF_SOURCE.imageSize.height);
-const DEVICE_NAME='iPhone 14';
+const DEVICE_NAME=SYS_RECORD.device||'iPhone 14';
 const DEVICE_CANVAS_WIDTH=340;
 const PIPELINE_GATE_COUNT=6;
 let pipelineTotalMs=Array(PIPELINE_GATE_COUNT).fill(0);
@@ -889,13 +989,13 @@ async function loadJsonlFeed(){
     feedLoaded=true;
     return rows.length;
   }catch(err){
-    // file:// 환경 등에서 fetch가 실패할 수 있어 JS 백업 소스를 시도
-    if(typeof window!=='undefined'&&typeof window.REALTIME_POSE_JSONL==='string'){
+    // file:// 환경: fetch 실패 시 페이지 로드 시점에 이미 주입된 .js 래퍼를 사용
+    if(typeof window.REALTIME_POSE_JSONL==='string'){
       const rows=parseJsonl(window.REALTIME_POSE_JSONL);
       if(rows.length){
         feedFrames=rows;
         feedLoaded=true;
-        log('wn','jsonl fetch 실패로 로컬 백업 소스 사용');
+        log('wn','file:// 환경 — .js 래퍼에서 로드 완료');
         return rows.length;
       }
     }
@@ -1242,13 +1342,25 @@ function tick(ts){
 
 /* ── Init ── */
 async function init(){
+  // Populate system record fields
+  const ref=SYS_RECORD.imageReference||'fullshot_1.jpg';
+  E('breadcrumbDataId').textContent=SYS_RECORD.dataId||'detail';
+  E('breadcrumbRef').textContent=ref;
+  E('refName').textContent=`${ref} — 레퍼런스`;
+  E('metaDataId').textContent=SYS_RECORD.dataId||'—';
+  E('metaUserId').textContent=SYS_RECORD.userId||'—';
+  E('metaStatus').textContent=SYS_RECORD.status||'—';
   E('metaDevice').textContent=detectDevice();
+  E('metaRefImage').textContent=ref;
+  E('metaConf').textContent=SYS_RECORD.confidence||'—';
+  E('metaCreatedAt').textContent=SYS_RECORD.createdAt||'—';
   E('metaAspect').textContent='1:1';
   resetPipelineState();
   applyCanvasAspect('1:1');
+  loadAiRefData();
   drawRef();
   log('ok','DWPose 133kp 모델 로드 완료');
-  log('ok','레퍼런스 fullshot_1.jpg 분석 완료');
+  log('ok',`레퍼런스 ${ref} 분석 완료`);
   const cnt=await loadJsonlFeed();
   if(cnt>0) log('ok',`jsonl 프레임 로드: ${cnt}개`);
   log('ok','실시간 모니터링 시작');

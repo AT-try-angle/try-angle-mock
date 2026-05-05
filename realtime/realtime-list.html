@@ -118,9 +118,19 @@
           .replace(/'/g, '&#39;');
       }
 
-      function detailHref(logPath) {
-        const p = String(logPath || '').trim();
-        return p ? `./realtime-detail.html?log=${encodeURIComponent(p)}` : './realtime-detail.html';
+      function detailHref(row) {
+        const p = String(row?.logPath || '').trim();
+        const params = new URLSearchParams();
+        if (p) params.set('log', p);
+        if (row?.dataId) params.set('dataId', row.dataId);
+        if (row?.userId) params.set('userId', row.userId);
+        if (row?.device) params.set('device', row.device);
+        if (row?.imageReference) params.set('ref', row.imageReference);
+        if (row?.confidence !== undefined) params.set('conf', row.confidence);
+        if (row?.createdAt) params.set('createdAt', row.createdAt);
+        if (row?.status) params.set('status', row.status);
+        const qs = params.toString();
+        return qs ? `./realtime-detail.html?${qs}` : './realtime-detail.html';
       }
 
       function statusBadge(status) {
@@ -151,7 +161,7 @@
         }
 
         tbody.innerHTML = rows.map((row) => {
-          const href = detailHref(row?.logPath);
+          const href = detailHref(row);
           const status = String(row?.status || '').trim();
           return `
             <tr data-status="${esc(status)}">

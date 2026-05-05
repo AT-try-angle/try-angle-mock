@@ -14,7 +14,7 @@ window.__SYSTEM_DATA__ = {
       "confidence": 0.92,
       "createdAt": "2026년 04월 12일 11시 02분",
       "status": "촬영중",
-      "logPath": "../assets/data/ai_data/waistshot_2_sys.jsonl"
+      "logPath": "../assets/data/sys_data/waistshot_2_sys.jsonl"
     },
     {
       "dataId": "PD-241129-1030",
@@ -24,17 +24,17 @@ window.__SYSTEM_DATA__ = {
       "confidence": 0.89,
       "createdAt": "2026년 04월 12일 11시 01분",
       "status": "촬영중",
-      "logPath": "../assets/data/ai_data/fullshot_2_sys.jsonl"
+      "logPath": "../assets/data/sys_data/fullshot_2_sys.jsonl"
     },
     {
       "dataId": "PD-241129-1029",
       "userId": "user_12048",
       "device": "iPhone14",
-      "imageReference": "waistshot_2.jpg",
+      "imageReference": "kneeshot_2.jpg",
       "confidence": 0.95,
       "createdAt": "2026년 04월 12일 11시 01분",
       "status": "완료",
-      "logPath": "../assets/data/ai_data/waistshot_2_sys.jsonl"
+      "logPath": "../assets/data/sys_data/kneeshot_1_sys.jsonl"
     },
     {
       "dataId": "PD-241129-1028",
