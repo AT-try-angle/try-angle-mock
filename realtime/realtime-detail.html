@@ -785,11 +785,20 @@ function drawOverlay(){
 
 /* ── Live KP generation ── */
 function makeLiveKps(n=.012){
-  return REF.map(kp=>({
-    x:kp.x,
-    y:kp.y,
-    conf:kp.conf,
-  }));
+  return REF.map(kp=>({x:kp.x,y:kp.y,conf:kp.conf}));
+}
+function parseLiveKps(hex){
+  if(!hex||hex.length<133*12) return null;
+  const kps=[];
+  for(let i=0;i<133;i++){
+    const off=i*12;
+    kps.push({
+      x:parseInt(hex.slice(off,off+4),16)/10000,
+      y:parseInt(hex.slice(off+4,off+8),16)/10000,
+      conf:parseInt(hex.slice(off+8,off+12),16)/10000,
+    });
+  }
+  return kps;
 }
 function matchScore(lkps){
   let d=0;
@@ -853,6 +862,7 @@ let captureStartAt=Date.now();
 let feedIdx=0;
 let feedFrames=[];
 let feedLoaded=false;
+let lastFeedKps=null;
 const ASPECT_SWITCH_FRAMES=90;
 const REF_ASPECT=aspectText(REF_SOURCE.imageSize.width,REF_SOURCE.imageSize.height);
 const DEVICE_NAME=SYS_RECORD.device||'iPhone 14';
@@ -1012,7 +1022,7 @@ async function loadJsonlFeed(){
     }
     feedFrames=[];
     feedLoaded=false;
-    log('er',`jsonl 로드 실패: ${String(err&&err.message||err)}`);
+    lastFeedKps=null;
     log('wn','HTTP 서버로 열면 fetch가 정상 동작합니다 (예: python -m http.server).');
     return 0;
   }
@@ -1033,8 +1043,9 @@ function feedToEntry(src,prev){
   const cRH=clamp(0.34+v*0.48,0.25,0.99);
   const tilt=+(2+(1-v)*6.5).toFixed(2);
   const shoulder=+(0.36+v*0.05).toFixed(4);
-  const jitter=0.003+((100-(score||0))/100)*0.017;
-  const kps=makeLiveKps(jitter);
+  const parsed=parseLiveKps(cur.kp);
+  if(parsed) lastFeedKps=parsed;
+  const kps=lastFeedKps||makeLiveKps();
   return {
     frame,
     score:clamp(score||0,0,100),
@@ -1195,7 +1206,7 @@ function resetSim(){
   captureStartAt=Date.now();
   resetPipelineState();
   feedIdx=0;
-  E('metaCaptureTime').textContent='— | —';
+  lastFeedKps=null;
   E('metaAspect').textContent='1:1';
   HIST.length=0;pbIdx=-1;pbPlay=false;pbAcc=0;pbLast=0;
   E('frov').classList.remove('show');
