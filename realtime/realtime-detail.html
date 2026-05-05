@@ -775,9 +775,9 @@ function drawOverlay(){
 /* ── Live KP generation ── */
 function makeLiveKps(n=.012){
   return REF.map(kp=>({
-    x:kp.x+(Math.random()-.5)*n,
-    y:kp.y+(Math.random()-.5)*n,
-    conf:Math.min(.99,Math.max(.1,kp.conf+(Math.random()-.5)*.15)),
+    x:kp.x,
+    y:kp.y,
+    conf:kp.conf,
   }));
 }
 function matchScore(lkps){
