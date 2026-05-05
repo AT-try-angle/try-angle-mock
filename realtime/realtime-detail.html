@@ -5,6 +5,7 @@
 <title>TryAngle — Live Monitor</title>
 <script src="../assets/data/system.json.js"></script>
 <script src="../assets/data/ai_data/index.js"></script>
+<script src="../assets/data/reference.json.js"></script>
 <script>
 (function(){
   var SAFE_RE=/^\.\.\/assets\/data\/(?:[a-zA-Z0-9_-]+\/)?[a-zA-Z0-9._-]+\.jsonl$/;
@@ -623,6 +624,16 @@ function buildRefFromSource(){
   return adaptRefKpsToImageSpace(parsed,bbox);
 }
 let REF = buildRefFromSource() || buildFallbackRef();
+
+/* ── Look up correct CDN image URL from reference.json by imageReference stem ── */
+function getRefImageUrl(imageRef){
+  const refs=window.__REFERENCE_DATA__?.references;
+  if(!refs||!imageRef) return null;
+  const stem=imageRef.replace(/\.[^.]+$/,'');
+  const found=refs.find(r=>r.fileName.replace(/\.[^.]+$/,'')===stem);
+  return found?.url||null;
+}
+
 document.getElementById('refSampleImg').src=REF_SOURCE.imageUrl;
 
 /* ── Canvas refs ── */
@@ -717,7 +728,7 @@ function loadAiRefData(){
   const img=document.getElementById('refSampleImg');
   if(img){
     img.onerror=()=>{img.onerror=null;img.src='../assets/cup-pose.png';};
-    img.src=ri.path;
+    img.src=getRefImageUrl(SYS_RECORD.imageReference)||ri.path;
   }
   // Derived display values
   const camAngle=CAM_ANGLE_LABELS[rd.framing&&rd.framing.camAngle]||(rd.framing&&rd.framing.camAngle?rd.framing.camAngle.toUpperCase():'EYE LEVEL');
