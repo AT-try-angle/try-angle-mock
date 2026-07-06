@@ -143,12 +143,7 @@
 
   function requireAuth(redirectTo) {
     var session = getSession();
-    if (!session || !session.user || Number(session.user.state) !== 1) {
-      var next = encodeURIComponent(redirectTo || '/');
-      window.location.replace('./login.html?next=' + next);
-      return false;
-    }
-    return true;
+    return !!(session && session.user && Number(session.user.state) === 1);
   }
 
   ensureSeedUser();

@@ -6,19 +6,6 @@
   <title>TryAngle Admin Dashboard</title>
   <link rel="stylesheet" href="./assets/admin.css">
   <script src="./assets/auth.js"></script>
-  <script>
-    (function () {
-      try {
-        var session = JSON.parse(localStorage.getItem('tryangle_auth_session') || 'null');
-        if (!session || !session.user || Number(session.user.state) !== 1) {
-          var next = encodeURIComponent('./index.html');
-          window.location.replace('./login.html?next=' + next);
-        }
-      } catch (e) {
-        window.location.replace('./login.html?next=' + encodeURIComponent('./index.html'));
-      }
-    })();
-  </script>
   <script src="./assets/data/ai_data/index.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
