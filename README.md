@@ -4,8 +4,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/try-angle-at">
-    <img src="../assets/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/AT-try-angle">
+    <img src="https://github.com/AT-try-angle/.github/raw/main/profile/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
 <h1 align="center">TryAngle Admin - Mock Prototype</h1>
@@ -13,9 +13,9 @@
   <p align="center">
     TryAngle 어드민 UI 설계를 위한 정적 목업 프로토타입
     <br />
-    <a href="https://try-angle-at.github.io/tryangle_admin_mock/"><strong>목업 사이트 바로가기</strong></a>
+    <a href="https://at-try-angle.github.io/try-angle-mock"><strong>목업 사이트 바로가기</strong></a>
     &nbsp;&middot;&nbsp;
-    <a href="https://github.com/try-angle-at/tryangle_admin_mock"><strong>GitHub Repository</strong></a>
+    <a href="https://github.com/AT-try-angle/try-angle-mock"><strong>GitHub Repository</strong></a>
     <br />
     <br />
     본 레포지터리는 프로덕션 어드민 서비스가 아닌 <strong>UI 프로토타이핑 전용 목업</strong>입니다.
@@ -54,7 +54,7 @@
 공통 디자인 기준은 DESIGN.md, 공통 스타일시트는 assets/admin.css 를 참고하세요.
 
 
-> [디자인 시스템 상세 기준 바로가기](https://try-angle-at.github.io/tryangle_admin_mock/design)
+> [디자인 시스템 상세 기준 바로가기](https://at-try-angle.github.io/try-angle-mockdesign)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -91,7 +91,7 @@
 | 최승혜 | 프로토타이핑 · 레이아웃 작업 |
 | 윤서 | 프로토타이핑 · 레이아웃 작업 · UI 작업 |
 
-> 전체 팀 구성은 TryAngle 메인 레포지터리( [https://github.com/try-angle-at](https://github.com/try-angle-at) )를 참고하세요.
+> 전체 팀 구성은 TryAngle 메인 레포지터리( [https://github.com/AT-try-angle](https://github.com/AT-try-angle) )를 참고하세요.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -101,8 +101,8 @@
 
 | | URL |
 |---|---|
-| 목업 사이트 | https://try-angle-at.github.io/tryangle_admin_mock/ |
-| 레포지터리 | https://github.com/try-angle-at/tryangle_admin_mock |
-| TryAngle 메인 레포지터리 | https://github.com/try-angle-at |
+| 목업 사이트 | https://at-try-angle.github.io/try-angle-mock |
+| 레포지터리 | https://github.com/AT-try-angle/try-angle-mock |
+| TryAngle 메인 레포지터리 | https://github.com/AT-try-angle |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
