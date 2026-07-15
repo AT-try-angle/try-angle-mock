@@ -54,7 +54,7 @@
 공통 디자인 기준은 DESIGN.md, 공통 스타일시트는 assets/admin.css 를 참고하세요.
 
 
-> [디자인 시스템 상세 기준 바로가기](https://at-try-angle.github.io/try-angle-mockdesign)
+> [디자인 시스템 상세 기준 바로가기](https://at-try-angle.github.io/try-angle-mock/design.html)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
